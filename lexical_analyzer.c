@@ -9,11 +9,22 @@ char token_buffer[MAXSTLEN];
 int token_buffer_index = 0;
 FILE *cCode;
 FILE *cTemp;
-
+char identifiers [MAXSTLEN][MAXSTLEN*2];
+char expressions [MAXSTLEN][MAXSTLEN*2];
+int defineIndex = 0;
 
 void clear_buffer(void){
     memset(token_buffer, 0, sizeof token_buffer);
     token_buffer_index = 0;
+}
+
+void buffer_ids(char c, int index){
+    if (index > MAXSTLEN*2-1)
+    {
+        printf("Buffer overflow\n");
+        exit(-1);
+    }
+    identifiers[defineIndex][index] = c;
 }
 
 void buffer_char(char c){
@@ -96,13 +107,16 @@ void preprocessing(string fileName){
             {
                 clear_buffer();
                 int flag = 0;
+                int index = 0;
                 for (c = getc(file); c != '\n'; c = getc(file)){
                     if(flag == 0 && (isalpha(c) || c == '_')){
-                        buffer_char(c);
+                        buffer_ids(c, index);
+                        index++;
                     }
                     if (isspace(c) && flag == 0 && token_buffer_index > 0)
                     {
                         flag++;
+
                     }
                     
                     if (isdigit(c) && token_buffer_index == 0)
