@@ -9,22 +9,23 @@ char token_buffer[MAXSTLEN];
 int token_buffer_index = 0;
 FILE *cCode;
 FILE *cTemp;
-char identifiers [MAXSTLEN][MAXSTLEN*2];
-char expressions [MAXSTLEN][MAXSTLEN*2];
-int defineIndex = 0;
+
+typedef struct Tuples
+{
+    char identifier[MAXSTLEN];
+    char expression[MAXSTLEN*2];
+} tuple;
+
+typedef struct NewArrays
+{
+    tuple defines[512];
+    int index;
+} newArray;
+
 
 void clear_buffer(void){
     memset(token_buffer, 0, sizeof token_buffer);
     token_buffer_index = 0;
-}
-
-void buffer_ids(char c, int index){
-    if (index > MAXSTLEN*2-1)
-    {
-        printf("Buffer overflow\n");
-        exit(-1);
-    }
-    identifiers[defineIndex][index] = c;
 }
 
 void buffer_char(char c){
@@ -37,11 +38,25 @@ void buffer_char(char c){
     }
 }
 
-void preprocessing(string fileName){
+void concatArray(newArray* original, newArray* extension){
+    for (int i = 0; i < extension->index; i++)
+    {
+        original->defines[original->index] = extension->defines[i];
+        if(original->index >=512){
+            printf("Too many define directives");
+            exit(-1);
+        }
+        original->index++;
+    }
+}
+
+newArray preprocessing(string fileName){
+    newArray localDef, tmpDef;
+    localDef.index = 0;
+    tmpDef.index = 0;
     printf("file %s\n", fileName);
     if (!strcmp(fileName, ""))
         return;
-
     FILE *file = fopen(fileName, "r");
     if (file == NULL)
     {
@@ -102,20 +117,38 @@ void preprocessing(string fileName){
                     fclose(file);
                     exit(-1);
                 }
-                preprocessing(token_buffer);
-            } else if (!strcmp(token_buffer, "define"))//////////////////////////
+                
+                tmpDef = preprocessing(token_buffer);
+                concatArray(&localDef, &tmpDef);
+
+            }
+        }
+    }
+    fclose(file);
+
+    file = fopen(fileName, "r"); ////////////////////////////////////////
+    clear_buffer();
+    if(feof(file))
+        return;
+    while ((in_char = getc(file)) != EOF){
+        if (in_char == '#'){
+            for (c = getc(file); isalpha(c); c = getc(file)){
+                buffer_char(c);
+            }
+            ungetc(c, file);
+            if (!strcmp(token_buffer, "define"))
             {
                 clear_buffer();
-                int flag = 0;
+                int section = 0;
                 int index = 0;
                 for (c = getc(file); c != '\n'; c = getc(file)){
-                    if(flag == 0 && (isalpha(c) || c == '_')){
+                    if(section == 0 && (isalpha(c) || c == '_')){
                         buffer_ids(c, index);
                         index++;
                     }
-                    if (isspace(c) && flag == 0 && token_buffer_index > 0)
+                    if (isspace(c) && section == 0 && token_buffer_index > 0)
                     {
-                        flag++;
+                        section++;
 
                     }
                     
@@ -163,16 +196,11 @@ void preprocessing(string fileName){
                     fclose(file);
                     exit(-1);
                 }
-                preprocessing(token_buffer);
-            }else
-            {
-                /* code */
             }
         }
-        else
-            continue; 
     }
     fclose(file);
+
     //cTemp = fopen("cTemp.c", "a+");
 }
 
