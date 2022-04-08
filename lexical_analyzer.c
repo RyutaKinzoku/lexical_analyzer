@@ -5,7 +5,7 @@
 
 #define MAXSTLEN 128
 typedef char string [MAXSTLEN];
-char token_buffer[MAXSTLEN];
+char token_buffer[MAXSTLEN*2];
 int token_buffer_index = 0;
 FILE *cCode;
 FILE *cTemp;
@@ -63,6 +63,7 @@ newArray preprocessing(string fileName){
         printf("Error! Could not open file\n");
         exit(-1);
     }
+
     int in_char, c;
 
     clear_buffer();
@@ -118,15 +119,38 @@ newArray preprocessing(string fileName){
                     exit(-1);
                 }
                 
-                tmpDef = preprocessing(token_buffer);
-                concatArray(&localDef, &tmpDef);
+                //tmpDef = preprocessing(token_buffer);
+                //concatArray(&localDef, &tmpDef);
 
             }
         }
     }
     fclose(file);
-
-    file = fopen(fileName, "r"); ////////////////////////////////////////
+    FILE* tmpFile = fopen("interTemp.c", "w");
+    file = fopen(fileName, "r");
+    clear_buffer();
+    while ((in_char = getc(file)) != EOF){
+        if (in_char == '#'){
+            for (c = getc(file); isalpha(c); c = getc(file)){
+                buffer_char(c);
+            }
+            ungetc(c, file);
+            if (!strcmp(token_buffer, "include"))
+            {
+                for (c = getc(file); c != '\n' && c != EOF; c = getc(file));
+            } else if (!strcmp(token_buffer, "define"))
+            {
+                fprintf(tmpFile, "#%s", token_buffer);
+            }
+        } else
+        {
+            fprintf(tmpFile, "%c", in_char);
+            clear_buffer();
+        }
+    }
+    fclose(file);
+    fclose(tmpFile);
+    file = fopen(fileName, "r");
     clear_buffer();
     if(feof(file))
         return;
@@ -140,18 +164,29 @@ newArray preprocessing(string fileName){
             {
                 clear_buffer();
                 int section = 0;
-                int index = 0;
+                tuple actualDef;
                 for (c = getc(file); c != '\n'; c = getc(file)){
-                    if(section == 0 && (isalpha(c) || c == '_')){
-                        buffer_ids(c, index);
-                        index++;
-                    }
-                    if (isspace(c) && section == 0 && token_buffer_index > 0)
+                    if (section == 0)
                     {
-                        section++;
-
+                        if((isalpha(c) || c == '_') && token_buffer_index == 0){
+                            buffer_char(c);
+                        }
+                        else if ((isalnum(c) || c == '_') && token_buffer_index > 0)
+                        {
+                            buffer_char(c);
+                        }
+                        else if (isspace(c) && token_buffer_index > 0)
+                        {
+                            section++;
+                        }
+                    }
+                    else if (section == 1)
+                    {
+                        if (!isspace(c)){buffer_char(c);}
+                        
                     }
                     
+
                     if (isdigit(c) && token_buffer_index == 0)
                     {
                         printf("Macro names must be identifiers\n");
@@ -174,12 +209,12 @@ newArray preprocessing(string fileName){
                     } /*else if (quotes >= 1)
                     {
                         buffer_char(c);
-                    }*/ else if (!isspace(c))
+                    } else if (!isspace(c))
                     {
                         printf("Expected filename\n");
                         fclose(file);
                         exit(-1);
-                    }
+                    }*/
                 }
                 int extraChar = 0;
                 while (c != '\n'){
