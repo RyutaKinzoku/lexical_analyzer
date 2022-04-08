@@ -165,7 +165,7 @@ newArray preprocessing(string fileName){
                 clear_buffer();
                 int section = 0;
                 tuple actualDef;
-                for (c = getc(file); c != '\n'; c = getc(file)){
+                for (c = getc(file); c != '\n' && c != EOF; c = getc(file)){
                     if (section == 0)
                     {
                         if((isalpha(c) || c == '_') && token_buffer_index == 0){
@@ -178,59 +178,34 @@ newArray preprocessing(string fileName){
                         else if (isspace(c) && token_buffer_index > 0)
                         {
                             section++;
+                            strcpy(actualDef.identifier, token_buffer);
+                            clear_buffer();
+                        }
+                        else if (!isspace(c))
+                        {
+                            printf("Macro names must be identifiers\n");
+                            fclose(file);
+                            exit(-1);
                         }
                     }
                     else if (section == 1)
                     {
-                        if (!isspace(c)){buffer_char(c);}
-                        
+                        if (isspace(c) && token_buffer_index == 0)
+                        {
+                            continue;
+                        } else 
+                        {
+                            buffer_char(c);
+                        }
                     }
-                    
-
-                    if (isdigit(c) && token_buffer_index == 0)
-                    {
-                        printf("Macro names must be identifiers\n");
-                        fclose(file);
-                        exit(-1);
-                    }
-                    if (c == '\"')
-                    {   
-                        //quotes++;
-                    }else if (c == '\n')
-                    {
-                        printf("There are not enough quotes in the #include directive\n");
-                        fclose(file);
-                        exit(-1);
-                    } else if (c == '/' || c == 0)
-                    {
-                        printf("Invalid character in a file\n");
-                        fclose(file);
-                        exit(-1);
-                    } /*else if (quotes >= 1)
-                    {
-                        buffer_char(c);
-                    } else if (!isspace(c))
-                    {
-                        printf("Expected filename\n");
-                        fclose(file);
-                        exit(-1);
-                    }*/
-                }
-                int extraChar = 0;
-                while (c != '\n'){
-                    if (!isspace(c) && extraChar == 0)
-                    {
-                        printf("Extra characters after #include directive\n");
-                        extraChar++;
-                    }
-                    c = getc(file);
                 }
                 if (token_buffer_index == 0)
                 {
-                    printf("Expected filename\n");
+                    printf("Expected an expresion\n");
                     fclose(file);
                     exit(-1);
                 }
+                strcpy(actualDef.expression, token_buffer);
             }
         }
     }
