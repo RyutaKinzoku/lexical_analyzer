@@ -5,8 +5,8 @@
 
 #define MAXSTLEN 128
 typedef char string [MAXSTLEN];
-char token_buffer[MAXSTLEN*2];
-int token_buffer_index = 0;
+char buffer[MAXSTLEN*2];
+int buffer_index = 0;
 FILE *cCode;
 FILE *cTemp;
 
@@ -24,14 +24,14 @@ typedef struct NewArrays
 
 
 void clear_buffer(void){
-    memset(token_buffer, 0, sizeof token_buffer);
-    token_buffer_index = 0;
+    memset(buffer, 0, sizeof buffer);
+    buffer_index = 0;
 }
 
 void buffer_char(char c){
-    token_buffer[token_buffer_index] = c;
-    token_buffer_index++;
-    if (token_buffer_index > MAXSTLEN-1)
+    buffer[buffer_index] = c;
+    buffer_index++;
+    if (buffer_index > MAXSTLEN-1)
     {
         printf("Buffer overflow\n");
         exit(-1);
@@ -50,13 +50,61 @@ void concatArray(newArray* original, newArray* extension){
     }
 }
 
+void replace(tuple actualDef){
+    FILE* interTemp = fopen("interTemp.c", "a+");
+    int in_char, c;
+    FILE* tmp = tmpfile();
+    int i = 0;
+    while ((in_char = getc(interTemp)) != EOF)
+    {
+        clear_buffer();
+        printf("character %c\n", in_char);
+        for (c = getc(interTemp); isalnum(c) || c == '_'; c = getc(interTemp)){
+            buffer_char(c);
+        }
+        ungetc(c, interTemp);
+        if (!isalnum(in_char) && in_char != '_')
+        {
+            if (in_char == 32)
+            {
+                //printf("%d\n", i);
+            }
+            fputc(in_char, tmp);
+        }
+        if (!strcmp(actualDef.identifier, buffer))
+        {
+            printf("buffer %s\n", buffer);
+            fputs(actualDef.expression, tmp);
+        } else if (buffer_index > 0){
+            printf("buffer %s\n", buffer);
+            fputs(buffer, tmp);
+        }
+        i++;
+    }
+    fclose(interTemp);
+    interTemp = fopen("interTemp.c", "a+");
+    while ((in_char = getc(tmp)) != EOF)
+    {
+        clear_buffer();
+        if (in_char != '\n' && in_char != EOF)
+        {
+            buffer_char(in_char);
+        }else if (in_char == '\n')
+        {
+            //printf("bufffer %s", buffer);
+            fprintf(interTemp, "%s\n", buffer);
+        } else{
+            fprintf(interTemp, "%s", buffer);
+        }
+    }
+    fclose(interTemp);
+}
+
 newArray preprocessing(string fileName){
     newArray localDef, tmpDef;
     localDef.index = 0;
     tmpDef.index = 0;
     printf("file %s\n", fileName);
-    if (!strcmp(fileName, ""))
-        return;
     FILE *file = fopen(fileName, "r");
     if (file == NULL)
     {
@@ -75,7 +123,7 @@ newArray preprocessing(string fileName){
                 buffer_char(c);
             }
             ungetc(c, file);
-            if (!strcmp(token_buffer, "include"))
+            if (!strcmp(buffer, "include"))
             {
                 clear_buffer();
                 int quotes = 0;
@@ -112,14 +160,14 @@ newArray preprocessing(string fileName){
                     }
                     c = getc(file);
                 }
-                if (token_buffer_index == 0)
+                if (buffer_index == 0)
                 {
                     printf("Expected filename\n");
                     fclose(file);
                     exit(-1);
                 }
                 
-                //tmpDef = preprocessing(token_buffer);
+                //tmpDef = preprocessing(buffer);
                 //concatArray(&localDef, &tmpDef);
 
             }
@@ -135,12 +183,12 @@ newArray preprocessing(string fileName){
                 buffer_char(c);
             }
             ungetc(c, file);
-            if (!strcmp(token_buffer, "include"))
+            if (!strcmp(buffer, "include"))
             {
                 for (c = getc(file); c != '\n' && c != EOF; c = getc(file));
-            } else if (!strcmp(token_buffer, "define"))
+            } else if (!strcmp(buffer, "define"))
             {
-                fprintf(tmpFile, "#%s", token_buffer);
+                fprintf(tmpFile, "#%s", buffer);
             }
         } else
         {
@@ -160,7 +208,7 @@ newArray preprocessing(string fileName){
                 buffer_char(c);
             }
             ungetc(c, file);
-            if (!strcmp(token_buffer, "define"))
+            if (!strcmp(buffer, "define"))
             {
                 clear_buffer();
                 int section = 0;
@@ -168,17 +216,17 @@ newArray preprocessing(string fileName){
                 for (c = getc(file); c != '\n' && c != EOF; c = getc(file)){
                     if (section == 0)
                     {
-                        if((isalpha(c) || c == '_') && token_buffer_index == 0){
+                        if((isalpha(c) || c == '_') && buffer_index == 0){
                             buffer_char(c);
                         }
-                        else if ((isalnum(c) || c == '_') && token_buffer_index > 0)
+                        else if ((isalnum(c) || c == '_') && buffer_index > 0)
                         {
                             buffer_char(c);
                         }
-                        else if (isspace(c) && token_buffer_index > 0)
+                        else if (isspace(c) && buffer_index > 0)
                         {
                             section++;
-                            strcpy(actualDef.identifier, token_buffer);
+                            strcpy(actualDef.identifier, buffer);
                             clear_buffer();
                         }
                         else if (!isspace(c))
@@ -190,7 +238,7 @@ newArray preprocessing(string fileName){
                     }
                     else if (section == 1)
                     {
-                        if (isspace(c) && token_buffer_index == 0)
+                        if (isspace(c) && buffer_index == 0)
                         {
                             continue;
                         } else 
@@ -199,13 +247,17 @@ newArray preprocessing(string fileName){
                         }
                     }
                 }
-                if (token_buffer_index == 0)
+                if (buffer_index == 0)
                 {
                     printf("Expected an expresion\n");
                     fclose(file);
                     exit(-1);
                 }
-                strcpy(actualDef.expression, token_buffer);
+                strcpy(actualDef.expression, buffer);
+                printf("%s:%s\n", actualDef.identifier, actualDef.expression);
+                localDef.defines[localDef.index] = actualDef;
+                localDef.index++;
+                replace(actualDef);
             }
         }
     }
