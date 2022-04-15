@@ -5,7 +5,7 @@
 
 #define MAXSTLEN 128
 typedef char string [MAXSTLEN];
-char buffer[MAXSTLEN*2];
+char buffer[MAXSTLEN*4];
 int buffer_index = 0;
 FILE *cCode;
 FILE *cTemp;
@@ -31,7 +31,7 @@ void clear_buffer(void){
 void buffer_char(char c){
     buffer[buffer_index] = c;
     buffer_index++;
-    if (buffer_index > MAXSTLEN-1)
+    if (buffer_index > MAXSTLEN*4-1)
     {
         printf("Buffer overflow\n");
         exit(-1);
@@ -53,36 +53,43 @@ void concatArray(newArray* original, newArray* extension){
 void replace(tuple actualDef){
     FILE* interTemp = fopen("interTemp.c", "a+");
     int in_char, c;
-    FILE* tmp = tmpfile();
-    int i = 0;
+    FILE* tmp = fopen("interTemp.c", "a+");
+    int slash = 0;
+    int quotes = 0;
+    int apostrophe = 0;
     while ((in_char = getc(interTemp)) != EOF)
     {
         clear_buffer();
-        printf("character %c\n", in_char);
         for (c = getc(interTemp); isalnum(c) || c == '_'; c = getc(interTemp)){
             buffer_char(c);
         }
         ungetc(c, interTemp);
         if (!isalnum(in_char) && in_char != '_')
         {
-            if (in_char == 32)
-            {
-                //printf("%d\n", i);
-            }
-            fputc(in_char, tmp);
+            fprintf(tmp, "%c", in_char);
+            if(in_char = '/')
+                slash++;
+            else if(in_char == '\"')
+                quotes++;
+            else if(in_char == '\"')
+                apostrophe++;
         }
         if (!strcmp(actualDef.identifier, buffer))
         {
-            printf("buffer %s\n", buffer);
-            fputs(actualDef.expression, tmp);
+            if(slash < 2){
+                fprintf(tmp, "%s", actualDef.expression);
+            } else if(quotes != 1){
+                fprintf(tmp, "%s", actualDef.expression);
+            } else if(apostrophe != 1){
+                fprintf(tmp, "%s", actualDef.expression);
+            }
+            slash, quotes, apostrophe = 0;
         } else if (buffer_index > 0){
-            printf("buffer %s\n", buffer);
-            fputs(buffer, tmp);
+            fprintf(tmp, "%s", buffer);
         }
-        i++;
     }
     fclose(interTemp);
-    interTemp = fopen("interTemp.c", "a+");
+    interTemp = fopen("interTemp.c", "w");
     while ((in_char = getc(tmp)) != EOF)
     {
         clear_buffer();
@@ -91,20 +98,24 @@ void replace(tuple actualDef){
             buffer_char(in_char);
         }else if (in_char == '\n')
         {
-            //printf("bufffer %s", buffer);
             fprintf(interTemp, "%s\n", buffer);
         } else{
             fprintf(interTemp, "%s", buffer);
         }
     }
+    fclose(tmp);
+    remove("tmp.c");
     fclose(interTemp);
 }
 
-newArray preprocessing(string fileName){
+newArray preprocessing(string pfileName){
     newArray localDef, tmpDef;
+    string fileName;
+    strcpy(fileName, pfileName);
+
     localDef.index = 0;
     tmpDef.index = 0;
-    printf("file %s\n", fileName);
+
     FILE *file = fopen(fileName, "r");
     if (file == NULL)
     {
@@ -113,12 +124,9 @@ newArray preprocessing(string fileName){
     }
 
     int in_char, c;
-
-    clear_buffer();
-    if(feof(file))
-        return;
     while ((in_char = getc(file)) != EOF){
         if (in_char == '#'){
+            clear_buffer();
             for (c = getc(file); isalpha(c); c = getc(file)){
                 buffer_char(c);
             }
@@ -152,7 +160,7 @@ newArray preprocessing(string fileName){
                     }
                 }
                 int extraChar = 0;
-                while (c != '\n'){
+                while (c != '\n' && c != EOF){
                     if (!isspace(c) && extraChar == 0)
                     {
                         printf("Warning: Extra characters after #include directive\n");
@@ -166,18 +174,17 @@ newArray preprocessing(string fileName){
                     fclose(file);
                     exit(-1);
                 }
-                
-                //tmpDef = preprocessing(buffer);
-                //concatArray(&localDef, &tmpDef);
-
-            }
+                tmpDef = preprocessing(buffer);
+                concatArray(&localDef, &tmpDef);
+            } 
         }
     }
+    
     fclose(file);
     FILE* tmpFile = fopen("interTemp.c", "w");
     file = fopen(fileName, "r");
-    clear_buffer();
     while ((in_char = getc(file)) != EOF){
+        clear_buffer();
         if (in_char == '#'){
             for (c = getc(file); isalpha(c); c = getc(file)){
                 buffer_char(c);
@@ -193,11 +200,16 @@ newArray preprocessing(string fileName){
         } else
         {
             fprintf(tmpFile, "%c", in_char);
-            clear_buffer();
         }
     }
     fclose(file);
     fclose(tmpFile);
+    
+    //Replace children defines to the current file
+    for(int i = 0; i < localDef.index; i++){
+        replace(localDef.defines[i]);
+    }
+
     file = fopen(fileName, "r");
     clear_buffer();
     if(feof(file))
@@ -262,8 +274,24 @@ newArray preprocessing(string fileName){
         }
     }
     fclose(file);
-
-    //cTemp = fopen("cTemp.c", "a+");
+    // Add to the final temporary file the inter temp data
+    FILE* interTemp = fopen("interTemp.c", "r");
+    FILE* cTemp = fopen("cTemp.c", "a+");
+    while ((in_char = getc(interTemp)) != EOF){
+        if (in_char != '#'){
+            clear_buffer();
+            buffer_char(in_char);
+            for (c = getc(interTemp); c != '\n' && c != EOF; c = getc(interTemp)){
+                buffer_char(c);
+            }
+            fprintf(cTemp, "%s\n", buffer);
+        } else{
+            for (c = getc(interTemp); c != '\n' && c != EOF; c = getc(interTemp));
+        }
+    }
+    fclose(interTemp);
+    fclose(cTemp);
+    return localDef;
 }
 
 int main()
@@ -271,6 +299,8 @@ int main()
     printf("Welcome to the lexical analyzer, please type the name of the file that you want to analyze:\n");
     string fileName = {};
     scanf("%s", fileName);
+    remove("cTemp.c");
     preprocessing(fileName);
+    //remove("interTemp.c");
     return 0;
 }
