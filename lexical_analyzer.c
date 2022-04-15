@@ -67,23 +67,22 @@ void replace(tuple actualDef){
         if (!isalnum(in_char) && in_char != '_')
         {
             fprintf(tmp, "%c", in_char);
-            if(in_char = '/')
+            if(in_char == '/')
                 slash++;
+            else if(in_char == '\"' && quotes == 1)
+                quotes = 0;
             else if(in_char == '\"')
                 quotes++;
-            else if(in_char == '\"')
-                apostrophe++;
-        }
+            else if(in_char == '\n' || in_char == EOF)
+                slash = 0;
+        } 
         if (!strcmp(actualDef.identifier, buffer))
         {
-            if(slash < 2){
+            if(slash < 2 && quotes < 1){
                 fprintf(tmp, "%s", actualDef.expression);
-            } else if(quotes != 1){
-                fprintf(tmp, "%s", actualDef.expression);
-            } else if(apostrophe != 1){
-                fprintf(tmp, "%s", actualDef.expression);
+            }else{
+                fprintf(tmp, "%s", actualDef.identifier);
             }
-            slash, quotes, apostrophe = 0;
         } else if (buffer_index > 0){
             fprintf(tmp, "%s", buffer);
         }
@@ -266,7 +265,7 @@ newArray preprocessing(string pfileName){
                     exit(-1);
                 }
                 strcpy(actualDef.expression, buffer);
-                printf("%s:%s\n", actualDef.identifier, actualDef.expression);
+                //printf("%s:%s\n", actualDef.identifier, actualDef.expression);
                 localDef.defines[localDef.index] = actualDef;
                 localDef.index++;
                 replace(actualDef);
@@ -301,6 +300,6 @@ int main()
     scanf("%s", fileName);
     remove("cTemp.c");
     preprocessing(fileName);
-    //remove("interTemp.c");
+    remove("interTemp.c");
     return 0;
 }
