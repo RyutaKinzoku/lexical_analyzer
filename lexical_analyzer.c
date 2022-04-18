@@ -4,9 +4,11 @@
 #include <ctype.h>
 
 #define MAXSTLEN 128
-typedef char string [MAXSTLEN];
+typedef char string [MAXSTLEN*4];
 char buffer[MAXSTLEN*4];
 int buffer_index = 0;
+string files[512];
+int filesIndex = 0;
 FILE *cCode;
 FILE *cTemp;
 
@@ -22,6 +24,14 @@ typedef struct NewArrays
     int index;
 } newArray;
 
+int isInclude(string s){
+    for(int i = 0; i<filesIndex; i++){
+        if(!strcmp(s, files[i])){
+            return 1;
+        }
+    }
+    return 0;
+}
 
 void clear_buffer(void){
     memset(buffer, 0, sizeof buffer);
@@ -103,7 +113,6 @@ void replace(tuple actualDef){
         }
     }
     fclose(tmp);
-    remove("tmp.c");
     fclose(interTemp);
 }
 
@@ -111,6 +120,7 @@ newArray preprocessing(string pfileName){
     newArray localDef, tmpDef;
     string fileName;
     strcpy(fileName, pfileName);
+    int isInCtemp = isInclude(fileName);
 
     localDef.index = 0;
     tmpDef.index = 0;
@@ -173,40 +183,47 @@ newArray preprocessing(string pfileName){
                     fclose(file);
                     exit(-1);
                 }
-                tmpDef = preprocessing(buffer);
-                concatArray(&localDef, &tmpDef);
+                if(strcmp(buffer, fileName)){
+                    tmpDef = preprocessing(buffer);
+                    concatArray(&localDef, &tmpDef);
+                } else {
+                    printf("Current file can't import itself\n");
+                    exit(-1);
+                }
             } 
         }
     }
     
     fclose(file);
-    FILE* tmpFile = fopen("interTemp.c", "w");
-    file = fopen(fileName, "r");
-    while ((in_char = getc(file)) != EOF){
-        clear_buffer();
-        if (in_char == '#'){
-            for (c = getc(file); isalpha(c); c = getc(file)){
-                buffer_char(c);
-            }
-            ungetc(c, file);
-            if (!strcmp(buffer, "include"))
+    if(!isInCtemp){
+        FILE* tmpFile = fopen("interTemp.c", "w");
+        file = fopen(fileName, "r");
+        while ((in_char = getc(file)) != EOF){
+            clear_buffer();
+            if (in_char == '#'){
+                for (c = getc(file); isalpha(c); c = getc(file)){
+                    buffer_char(c);
+                }
+                ungetc(c, file);
+                if (!strcmp(buffer, "include"))
+                {
+                    for (c = getc(file); c != '\n' && c != EOF; c = getc(file));
+                } else if (!strcmp(buffer, "define"))
+                {
+                    fprintf(tmpFile, "#%s", buffer);
+                }
+            } else
             {
-                for (c = getc(file); c != '\n' && c != EOF; c = getc(file));
-            } else if (!strcmp(buffer, "define"))
-            {
-                fprintf(tmpFile, "#%s", buffer);
+                fprintf(tmpFile, "%c", in_char);
             }
-        } else
-        {
-            fprintf(tmpFile, "%c", in_char);
         }
-    }
-    fclose(file);
-    fclose(tmpFile);
-    
-    //Replace children defines to the current file
-    for(int i = 0; i < localDef.index; i++){
-        replace(localDef.defines[i]);
+        fclose(file);
+        fclose(tmpFile);
+
+        //Replace children defines to the current file
+        for(int i = 0; i < localDef.index; i++){
+            replace(localDef.defines[i]);
+        }
     }
 
     file = fopen(fileName, "r");
@@ -268,28 +285,37 @@ newArray preprocessing(string pfileName){
                 //printf("%s:%s\n", actualDef.identifier, actualDef.expression);
                 localDef.defines[localDef.index] = actualDef;
                 localDef.index++;
-                replace(actualDef);
+                if(!isInCtemp) replace(actualDef);
             }
         }
     }
     fclose(file);
     // Add to the final temporary file the inter temp data
-    FILE* interTemp = fopen("interTemp.c", "r");
-    FILE* cTemp = fopen("cTemp.c", "a+");
-    while ((in_char = getc(interTemp)) != EOF){
-        if (in_char != '#'){
-            clear_buffer();
-            buffer_char(in_char);
-            for (c = getc(interTemp); c != '\n' && c != EOF; c = getc(interTemp)){
-                buffer_char(c);
+    if(!isInCtemp){
+        FILE* interTemp = fopen("interTemp.c", "r");
+        FILE* cTemp = fopen("cTemp.c", "a+");
+        while ((in_char = getc(interTemp)) != EOF){
+            if (in_char != '#'){
+                clear_buffer();
+                buffer_char(in_char);
+                for (c = getc(interTemp); c != '\n' && c != EOF; c = getc(interTemp)){
+                    buffer_char(c);
+                }
+                fprintf(cTemp, "%s\n", buffer);
+            } else{
+                for (c = getc(interTemp); c != '\n' && c != EOF; c = getc(interTemp));
             }
-            fprintf(cTemp, "%s\n", buffer);
-        } else{
-            for (c = getc(interTemp); c != '\n' && c != EOF; c = getc(interTemp));
+        }
+        fclose(interTemp);
+        fclose(cTemp);
+        if(filesIndex < 512){
+            strcpy(files[filesIndex], fileName);
+            filesIndex++;
+        }else{
+            printf("Too many includes directives\n");
+            exit(-1);
         }
     }
-    fclose(interTemp);
-    fclose(cTemp);
     return localDef;
 }
 
