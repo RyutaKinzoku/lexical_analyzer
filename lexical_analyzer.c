@@ -9,6 +9,8 @@ char buffer[MAXSTLEN*4];
 int buffer_index = 0;
 string files[512];
 int filesIndex = 0;
+string ancestors[512];
+int ancestorsIndex = 0;
 FILE *cCode;
 FILE *cTemp;
 
@@ -24,9 +26,18 @@ typedef struct NewArrays
     int index;
 } newArray;
 
-int isInclude(string s){
-    for(int i = 0; i<filesIndex; i++){
-        if(!strcmp(s, files[i])){
+int isInclude(string s, string* list, int index){
+    for(int i = 0; i<index; i++){
+        if(!strcmp(s, list[i])){
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int isInclude2(string s){
+    for(int i = 0; i<ancestorsIndex; i++){
+        if(!strcmp(s, ancestors[i])){
             return 1;
         }
     }
@@ -64,38 +75,65 @@ void replace(tuple actualDef){
     FILE* interTemp = fopen("interTemp.c", "a+");
     int in_char, c;
     FILE* tmp = fopen("interTemp.c", "a+");
-    int slash = 0;
-    int quotes = 0;
-    int apostrophe = 0;
+    int lineCom = 0;
+    int str = 0;
+    int multLineCom = 0;
+    int defineW = 0;
+    int id = 0;
     while ((in_char = getc(interTemp)) != EOF)
     {
         clear_buffer();
+        if(isalnum(in_char) || in_char == '_') buffer_char(in_char);
         for (c = getc(interTemp); isalnum(c) || c == '_'; c = getc(interTemp)){
             buffer_char(c);
         }
+
+        if (!strcmp("define", buffer) && id == 0) defineW++;
+        else if (defineW == 1 && strcmp(actualDef.identifier, buffer) && id == 0) defineW--;
+
         ungetc(c, interTemp);
         if (!isalnum(in_char) && in_char != '_')
         {
             fprintf(tmp, "%c", in_char);
-            if(in_char == '/')
-                slash++;
-            else if(in_char == '\"' && quotes == 1)
-                quotes = 0;
+            if(in_char == '/'){
+                if((in_char = getc(interTemp)) == '/'){
+                    fprintf(tmp, "%c", in_char);
+                    lineCom++;
+                }else if(in_char == '*'){
+                    fprintf(tmp, "%c", in_char);
+                    multLineCom++;
+                }else{
+                    ungetc(in_char, interTemp);
+                }
+            }
+            else if(in_char == '\"' && str == 1)
+                str = 0;
             else if(in_char == '\"')
-                quotes++;
+                str++;
             else if(in_char == '\n' || in_char == EOF)
-                slash = 0;
+                lineCom = 0;
+            else if(in_char == '*'){
+                if((in_char = getc(interTemp)) == '/'){
+                    fprintf(tmp, "%c", in_char);
+                    multLineCom = 0;
+                }else{
+                    ungetc(in_char, interTemp);
+                }
+            }
         } 
-        if (!strcmp(actualDef.identifier, buffer))
+        if (defineW == 1 && !strcmp(actualDef.identifier, buffer))
         {
-            if(slash < 2 && quotes < 1){
+            id++;
+            if(str != 1 && multLineCom != 1 && lineCom != 1){
                 fprintf(tmp, "%s", actualDef.expression);
             }else{
                 fprintf(tmp, "%s", actualDef.identifier);
             }
+        } else if(defineW == 0 && !strcmp(actualDef.identifier, buffer)){
+            fprintf(tmp, "%s", actualDef.identifier);
         } else if (buffer_index > 0){
             fprintf(tmp, "%s", buffer);
-        }
+        } 
     }
     fclose(interTemp);
     interTemp = fopen("interTemp.c", "w");
@@ -120,7 +158,8 @@ newArray preprocessing(string pfileName){
     newArray localDef, tmpDef;
     string fileName;
     strcpy(fileName, pfileName);
-    int isInCtemp = isInclude(fileName);
+    int isInCtemp = isInclude(fileName, files, filesIndex);
+    strcpy(ancestors[ancestorsIndex++], fileName);
 
     localDef.index = 0;
     tmpDef.index = 0;
@@ -183,11 +222,11 @@ newArray preprocessing(string pfileName){
                     fclose(file);
                     exit(-1);
                 }
-                if(strcmp(buffer, fileName)){
+                if(!isInclude(buffer, ancestors, ancestorsIndex)){
                     tmpDef = preprocessing(buffer);
                     concatArray(&localDef, &tmpDef);
                 } else {
-                    printf("Current file can't import itself\n");
+                    printf("There is a cycle in the include directives\n");
                     exit(-1);
                 }
             } 
@@ -231,7 +270,10 @@ newArray preprocessing(string pfileName){
     if(feof(file))
         return;
     while ((in_char = getc(file)) != EOF){
+        printf("%c\n", in_char);
+        printf("%s\n", buffer);
         if (in_char == '#'){
+            clear_buffer();
             for (c = getc(file); isalpha(c); c = getc(file)){
                 buffer_char(c);
             }
@@ -282,7 +324,7 @@ newArray preprocessing(string pfileName){
                     exit(-1);
                 }
                 strcpy(actualDef.expression, buffer);
-                //printf("%s:%s\n", actualDef.identifier, actualDef.expression);
+                printf("%s:%s\n", actualDef.identifier, actualDef.expression);
                 localDef.defines[localDef.index] = actualDef;
                 localDef.index++;
                 if(!isInCtemp) replace(actualDef);
@@ -316,6 +358,7 @@ newArray preprocessing(string pfileName){
             exit(-1);
         }
     }
+    strcpy(ancestors[--ancestorsIndex], "");
     return localDef;
 }
 
