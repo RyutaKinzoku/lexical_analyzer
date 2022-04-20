@@ -35,15 +35,6 @@ int isInclude(string s, string* list, int index){
     return 0;
 }
 
-int isInclude2(string s){
-    for(int i = 0; i<ancestorsIndex; i++){
-        if(!strcmp(s, ancestors[i])){
-            return 1;
-        }
-    }
-    return 0;
-}
-
 void clear_buffer(void){
     memset(buffer, 0, sizeof buffer);
     buffer_index = 0;
@@ -159,7 +150,10 @@ newArray preprocessing(string pfileName){
     string fileName;
     strcpy(fileName, pfileName);
     int isInCtemp = isInclude(fileName, files, filesIndex);
-    strcpy(ancestors[ancestorsIndex++], fileName);
+    if(ancestorsIndex < 512) strcpy(ancestors[ancestorsIndex++], fileName);
+    else {
+        printf("Call stack reached his limit\n");
+    }
 
     localDef.index = 0;
     tmpDef.index = 0;
@@ -270,8 +264,7 @@ newArray preprocessing(string pfileName){
     if(feof(file))
         return;
     while ((in_char = getc(file)) != EOF){
-        printf("%c\n", in_char);
-        printf("%s\n", buffer);
+        if (in_char == '\n' || in_char == ' ') continue;
         if (in_char == '#'){
             clear_buffer();
             for (c = getc(file); isalpha(c); c = getc(file)){
@@ -324,12 +317,12 @@ newArray preprocessing(string pfileName){
                     exit(-1);
                 }
                 strcpy(actualDef.expression, buffer);
-                printf("%s:%s\n", actualDef.identifier, actualDef.expression);
+                //printf("%s:%s\n", actualDef.identifier, actualDef.expression);
                 localDef.defines[localDef.index] = actualDef;
                 localDef.index++;
                 if(!isInCtemp) replace(actualDef);
             }
-        }
+        } else for (c = getc(file); c != '\n' && c != EOF; c = getc(file));
     }
     fclose(file);
     // Add to the final temporary file the inter temp data
@@ -337,6 +330,7 @@ newArray preprocessing(string pfileName){
         FILE* interTemp = fopen("interTemp.c", "r");
         FILE* cTemp = fopen("cTemp.c", "a+");
         while ((in_char = getc(interTemp)) != EOF){
+            if (in_char == '\n' || in_char == ' ') continue;
             if (in_char != '#'){
                 clear_buffer();
                 buffer_char(in_char);
@@ -344,9 +338,9 @@ newArray preprocessing(string pfileName){
                     buffer_char(c);
                 }
                 fprintf(cTemp, "%s\n", buffer);
-            } else{
+            } else {
                 for (c = getc(interTemp); c != '\n' && c != EOF; c = getc(interTemp));
-            }
+            } 
         }
         fclose(interTemp);
         fclose(cTemp);

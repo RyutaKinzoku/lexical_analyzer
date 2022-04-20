@@ -1,18 +1,10 @@
-
-int k = 70;
-
-int hola(){
-    return 2;
-}
-
-#define 13214 13214
-
+int hola;
 //test a a a
 int main(){
-    int ah = a;
-    int w = b;
-    int r = hola();
-    int v = 13214;
-    char f[10] = " hola a \n";
-    printf("%s", f);
+int ah = q; #define q 1
+int w = b;
+int r = hola();
+char f[10] = " a \n";
+int v = 13214;
+printf("%s", f);
 }
