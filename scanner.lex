@@ -15,104 +15,105 @@ INTLITERAL [0-9][0-9]*
 FLOATLITERAL ({INTLITERAL}+"."{INTLITERAL}*)
 DOUBLELITERAL ({FLOATLITERAL}+"e"{INTLITERAL})
 CHARLITERAL [^( |\n)]
+STRINGLITERAL \"(([^\"]|\\\")*[^\\])?\"
 
 /*Rules*/
 %%
 auto {
-    printf( "A keyword: %s\n", yytext );
+    printf( "An auto keyword: %s\n", yytext );
 }
 break {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A break keyword: %s\n", yytext );
 }
 case {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A case keyword: %s\n", yytext );
 }
 char {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A char keyword: %s\n", yytext );
 }
 const {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A const keyword: %s\n", yytext );
 }
 continue {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A continue keyword: %s\n", yytext );
 }
 default {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A default keyword: %s\n", yytext );
 }
 do {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A do keyword: %s\n", yytext );
 }
 else {
-    printf( "A keyword: %s\n", yytext );
+    printf( "An else keyword: %s\n", yytext );
 }
 enum {
-    printf( "A keyword: %s\n", yytext );
+    printf( "An enum keyword: %s\n", yytext );
 }
 extern {
-    printf( "A keyword: %s\n", yytext );
+    printf( "An extern keyword: %s\n", yytext );
 }
 double {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A double keyword: %s\n", yytext );
 }
 float {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A float keyword: %s\n", yytext );
 }
 for {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A float keyword: %s\n", yytext );
 }
 goto {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A goto keyword: %s\n", yytext );
 }
 if {
-    printf( "A keyword: %s\n", yytext );
+    printf( "An if keyword: %s\n", yytext );
 }
 int {
-    printf( "A keyword: %s\n", yytext );
+    printf( "An int keyword: %s\n", yytext );
 }
 long {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A long keyword: %s\n", yytext );
 }
 register {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A register keyword: %s\n", yytext );
 }
 return {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A return keyword: %s\n", yytext );
 }
 short {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A short keyword: %s\n", yytext );
 }
 signed {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A signed keyword: %s\n", yytext );
 }
 sizeof {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A sizeof keyword: %s\n", yytext );
 }
 static {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A static keyword: %s\n", yytext );
 }
 struct {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A struct keyword: %s\n", yytext );
 }
 switch {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A switch keyword: %s\n", yytext );
 }
 typedef {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A typedef keyword: %s\n", yytext );
 }
 union {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A union keyword: %s\n", yytext );
 }
 unsigned {
-    printf( "A keyword: %s\n", yytext );
+    printf( "An unsigned keyword: %s\n", yytext );
 }
 void {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A void keyword: %s\n", yytext );
 }
 volatile {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A volatile keyword: %s\n", yytext );
 }
 while {
-    printf( "A keyword: %s\n", yytext );
+    printf( "A while keyword: %s\n", yytext );
 }
 
 "+" {
