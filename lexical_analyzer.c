@@ -11,8 +11,7 @@ string files[512];
 int filesIndex = 0;
 string ancestors[512];
 int ancestorsIndex = 0;
-FILE *cCode;
-FILE *cTemp;
+int fileCounter = 0;
 
 typedef struct Tuples
 {
@@ -66,11 +65,7 @@ void replace(tuple actualDef){
     FILE* interTemp = fopen("interTemp.c", "a+");
     int in_char, c;
     FILE* tmp = fopen("interTemp.c", "a+");
-    int lineCom = 0;
     int str = 0;
-    int multLineCom = 0;
-    int defineW = 0;
-    int id = 0;
     while ((in_char = getc(interTemp)) != EOF)
     {
         clear_buffer();
@@ -78,50 +73,22 @@ void replace(tuple actualDef){
         for (c = getc(interTemp); isalnum(c) || c == '_'; c = getc(interTemp)){
             buffer_char(c);
         }
-
-        if (!strcmp("define", buffer) && id == 0) defineW++;
-        else if (defineW == 1 && strcmp(actualDef.identifier, buffer) && id == 0) defineW--;
-
         ungetc(c, interTemp);
         if (!isalnum(in_char) && in_char != '_')
         {
             fprintf(tmp, "%c", in_char);
-            if(in_char == '/'){
-                if((in_char = getc(interTemp)) == '/'){
-                    fprintf(tmp, "%c", in_char);
-                    lineCom++;
-                }else if(in_char == '*'){
-                    fprintf(tmp, "%c", in_char);
-                    multLineCom++;
-                }else{
-                    ungetc(in_char, interTemp);
-                }
-            }
-            else if(in_char == '\"' && str == 1)
+            if(in_char == '\"' && str == 1)
                 str = 0;
             else if(in_char == '\"')
                 str++;
-            else if(in_char == '\n' || in_char == EOF)
-                lineCom = 0;
-            else if(in_char == '*'){
-                if((in_char = getc(interTemp)) == '/'){
-                    fprintf(tmp, "%c", in_char);
-                    multLineCom = 0;
-                }else{
-                    ungetc(in_char, interTemp);
-                }
-            }
         } 
-        if (defineW == 1 && !strcmp(actualDef.identifier, buffer))
+        if (!strcmp(actualDef.identifier, buffer))
         {
-            id++;
-            if(str != 1 && multLineCom != 1 && lineCom != 1){
+            if(str != 1){
                 fprintf(tmp, "%s", actualDef.expression);
             }else{
                 fprintf(tmp, "%s", actualDef.identifier);
             }
-        } else if(defineW == 0 && !strcmp(actualDef.identifier, buffer)){
-            fprintf(tmp, "%s", actualDef.identifier);
         } else if (buffer_index > 0){
             fprintf(tmp, "%s", buffer);
         } 
@@ -153,19 +120,64 @@ newArray preprocessing(string pfileName){
     if(ancestorsIndex < 512) strcpy(ancestors[ancestorsIndex++], fileName);
     else {
         printf("Call stack reached his limit\n");
+        exit(-1);
     }
-
+    int multLineCom = 0;
     localDef.index = 0;
     tmpDef.index = 0;
+    int in_char, c;
 
-    FILE *file = fopen(fileName, "r");
-    if (file == NULL)
+    //Remove comments to simplify the code
+    FILE *inFile = fopen(fileName, "r");
+    if (inFile == NULL)
     {
         printf("Error! Could not open file\n");
         exit(-1);
     }
+    char tempfile[12];
+    sprintf(tempfile, "wComm%d.c", fileCounter);
+    fileCounter++;
 
-    int in_char, c;
+    FILE *wComments = fopen(tempfile, "w");
+
+    while ((in_char = getc(inFile)) != EOF){
+        if(in_char == '/'){
+            in_char = getc(inFile);
+            if(in_char == '/'){
+                for (c = getc(inFile); c != '\n' && c != EOF; c = getc(inFile));
+                ungetc(c, inFile);
+            } else if (in_char == '*'){
+                multLineCom = 1;
+            } else {
+                if(multLineCom == 0) {
+                    fprintf(wComments, "/%c", in_char);
+                }
+            }
+        } else if(in_char == '*'){
+            in_char = getc(inFile);
+            if (in_char == '/'){
+                multLineCom = 0;
+            } else {
+                if(multLineCom == 0) {
+                    fprintf(wComments, "*%c", in_char);
+                }
+            }
+        } else {
+            if(multLineCom == 0) {
+                fprintf(wComments, "%c", in_char);
+            }
+        }
+    }
+    if(multLineCom == 1) {
+        printf("Expected a comment enclosed before end of file\n");
+        exit(-1);
+    }
+    fclose(inFile);
+    fclose(wComments);
+
+    //Find all includes in current file
+    FILE *file = fopen(tempfile, "r");
+
     while ((in_char = getc(file)) != EOF){
         if (in_char == '#'){
             clear_buffer();
@@ -230,7 +242,7 @@ newArray preprocessing(string pfileName){
     fclose(file);
     if(!isInCtemp){
         FILE* tmpFile = fopen("interTemp.c", "w");
-        file = fopen(fileName, "r");
+        file = fopen(tempfile, "r");
         while ((in_char = getc(file)) != EOF){
             clear_buffer();
             if (in_char == '#'){
@@ -259,7 +271,7 @@ newArray preprocessing(string pfileName){
         }
     }
 
-    file = fopen(fileName, "r");
+    file = fopen(tempfile, "r");
     clear_buffer();
     if(feof(file))
         return;
@@ -353,6 +365,7 @@ newArray preprocessing(string pfileName){
         }
     }
     strcpy(ancestors[--ancestorsIndex], "");
+    remove(tempfile);
     return localDef;
 }
 
