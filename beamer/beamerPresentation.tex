@@ -1,0 +1,63 @@
+\documentclass [xcolor=svgnames, t] {beamer} 
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs, comment} 
+\usepackage[absolute, overlay]{textpos} 
+\usepackage{pgfpages}
+\usepackage[font=footnotesize]{caption}
+
+\setbeamercolor{author in head/foot}{bg=darkcyan}
+\setbeamertemplate{page number in head/foot}{}
+\usepackage{csquotes}
+
+
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel}
+
+
+\usepackage{textpos}
+
+\usepackage{tikz}
+
+\usetheme{Madrid}
+\definecolor{darkcyan}{RGB}{0, 139, 139}
+\usecolortheme[named=darkcyan]{structure}
+\usepackage{tikz}
+
+
+
+\title[Lexical Analysis]{Lexical Analysis}
+\subtitle{C Language}
+\institute[]{Department of Earth, Environmental, and Planetary Sciences  \\Brown University}
+\author[Project 1]{
+	Reyner Marxell Arias Muñoz,
+	Kenneth Ibarra Vargas,
+	David Benavides Naranjo}
+\institute[]{Project 1, Compilers and Interpreters course, I 2022 Semester}
+\date{\today}
+
+\begin{document}
+\begin{frame}
+\maketitle
+\end{frame}
+
+\section{Introduction}
+\begin{frame}{Scanning}
+   Como el archivo fuente tiene directivas include y define, el preprocesador previamente aplico correctamente cada una de ellas para que asi el escaner reciba solamente un archivo temporal de entrada.
+   \\Despues, el escaner recorre el archivo temporal devolviendo los tokens en orden y uno por uno, segun el programa fuente analizado. En c existen token de diferentes tipos como operadores, identificadores, literales, palabras reservadas y caracteres separadores.
+   \\Cualquier caracter no perteneciente al lexico de c que pueda llegar a ser analizado es retornado como error lexico. 
+\end{frame}
+\section{Literature Review}
+
+\section{Methodology}
+
+\section{Experiment}
+
+\section{Conclusion}
+    
+
+\begin{frame} [allowframebreaks]\frametitle{References} 
+    \bibliographystyle{apalike}
+    \bibliography{bibfile}
+\end{frame}
+
+\end{document}
