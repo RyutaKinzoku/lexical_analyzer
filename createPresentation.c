@@ -194,6 +194,8 @@ void createPresentation(){
     fprintf(presentation, "%s\n", "\\item \\emph{Separator characters}");
     fprintf(presentation, "%s\n", "\\color{blue}");
     fprintf(presentation, "%s\n", "\\item Identifiers");
+    fprintf(presentation, "%s\n", "\\color{Pink}");
+    fprintf(presentation, "%s\n", "{\\fontfamily{ptf} \\selectfont \\item \\underline{Errors}}");
     fprintf(presentation, "%s\n", "\\end{itemize}");
     fprintf(presentation, "%s\n", "\\end{frame}");
     fclose(presentation);
