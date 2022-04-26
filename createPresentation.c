@@ -1,5 +1,9 @@
 #include <stdio.h>
 
+void addToken(token t){
+    
+}
+
 void createPresentation(){
     FILE* presentation = fopen("beamerPresentation.tex", "w");
     fprintf(presentation, "%s\n", "\\documentclass [xcolor=svgnames, t] {beamer}"); 
@@ -29,7 +33,7 @@ void createPresentation(){
     fprintf(presentation, "%s\n", "\\subtitle{C Language}");
     fprintf(presentation, "%s\n", "\\author[Project 1]{Reyner Marxell Arias Muñoz, Kenneth Ibarra Vargas, David Benavides Naranjo}");
     fprintf(presentation, "%s\n", "\\institute[]{Project 1, Compilers and Interpreters course, I 2022 Semester}");
-    fprintf(presentation, "%s\n\n", "\\date{\today}");
+    fprintf(presentation, "%s\n\n", "\\date{\\today}");
 
     fprintf(presentation, "%s\n", "\\begin{document}");
     fprintf(presentation, "%s\n", "\\begin{frame}");
