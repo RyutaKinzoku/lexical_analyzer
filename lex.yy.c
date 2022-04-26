@@ -365,10 +365,10 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[180] =
     {   0,
-        0,    0,   56,   52,   52,   39,   54,   40,   41,   36,
-       33,   46,   35,   37,   49,   47,   38,   48,   42,   43,
+        0,    0,   56,   52,   52,   39,   54,   40,   41,   35,
+       33,   46,   34,   36,   49,   47,   37,   48,   42,   43,
        48,   48,   48,   48,   48,   48,   48,   48,   48,   48,
-       48,   48,   48,   48,   48,   44,   55,   45,   54,   34,
+       48,   48,   48,   48,   48,   44,   55,   45,   54,   38,
        50,   49,   53,   48,   48,   48,   48,   48,   48,   48,
         8,   48,   48,   48,   48,   48,   48,   16,   48,   48,
        48,   48,   48,   48,   48,   48,   48,   48,   48,   50,
@@ -1071,35 +1071,35 @@ case 34:
 YY_RULE_SETUP
 #line 126 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s 52\n", yytext);
+    fprintf(tokensTemp, "%s 33\n", yytext);
 }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 130 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s 33\n", yytext);
+    fprintf(tokensTemp, "%s 34\n", yytext);
 }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 #line 134 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s 34\n", yytext);
+    fprintf(tokensTemp, "%s 35\n", yytext);
 }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 138 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s 35\n", yytext);
+    fprintf(tokensTemp, "%s 36\n", yytext);
 }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
 #line 142 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s 36\n", yytext);
+    fprintf(tokensTemp, "%s 52\n", yytext);
 }
 	YY_BREAK
 case 39:

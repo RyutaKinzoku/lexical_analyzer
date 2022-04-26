@@ -1,5 +1,91 @@
 #include <stdio.h>
 
+typedef struct Types{
+    char color[128];
+    char fontFamily[128];
+    int hasFamily;
+    int isBold;
+    int isItalic;
+    int isUnderlined;
+} type;
+
+type categories[30];
+type operators, intLiterals, floatLiterals, doubleLiteral, charLiteral, stringLiteral, reservedWords, separators, identifiers;
+
+void setCategories(){
+    //Operators
+    strcpy(operators.color, "\\color{OrangeRed}");
+    strcpy(operators.fontFamily, "");
+    intLiterals.hasFamily = 0;
+    operators.isBold = 0;
+    operators.isItalic = 1;
+    operators.isUnderlined = 0;
+
+    //IntLiterals
+    strcpy(intLiterals.color, "\\color{Purple}");
+    strcpy(intLiterals.fontFamily, "qbk");
+    intLiterals.hasFamily = 1;
+    intLiterals.isBold = 0;
+    intLiterals.isItalic = 0;
+    intLiterals.isUnderlined = 0;
+
+    //FloatLiterals
+    strcpy(floatLiterals.color, "\\color{Turquoise}");
+    strcpy(floatLiterals.fontFamily, "qbk");
+    floatLiterals.hasFamily = 1;
+    floatLiterals.isBold = 1;
+    floatLiterals.isItalic = 0;
+    floatLiterals.isUnderlined = 0;
+
+    //DoubleLiterals
+    strcpy(doubleLiteral.color, "\\color{CadetBlue}");
+    strcpy(doubleLiteral.fontFamily, "qbk");
+    doubleLiteral.hasFamily = 1;
+    doubleLiteral.isBold = 1;
+    doubleLiteral.isItalic = 1;
+    doubleLiteral.isUnderlined = 1;
+
+    //CharLiterals
+    strcpy(charLiteral.color, "\\color{Violet}");
+    strcpy(charLiteral.fontFamily, "lmdh");
+    charLiteral.hasFamily = 1;
+    charLiteral.isBold = 0;
+    charLiteral.isItalic = 0;
+    charLiteral.isUnderlined = 0;
+
+    //StringLiteral
+    strcpy(stringLiteral.color, "\\color{ForestGreen}");
+    strcpy(stringLiteral.fontFamily, "lmdh");
+    stringLiteral.hasFamily = 1;
+    stringLiteral.isBold = 1;
+    stringLiteral.isItalic = 0;
+    stringLiteral.isUnderlined = 0;
+
+    //ReservedWords
+    strcpy(reservedWords.color, "\\color{Olive}");
+    strcpy(reservedWords.fontFamily, "");
+    reservedWords.hasFamily = 0;
+    reservedWords.isBold = 1;
+    reservedWords.isItalic = 0;
+    reservedWords.isUnderlined = 1;
+
+    //separators
+    strcpy(separators.color, "\\color{Cyan}");
+    strcpy(separators.fontFamily, "");
+    separators.hasFamily = 0;
+    separators.isBold = 0;
+    separators.isItalic = 1;
+    separators.isUnderlined = 0;
+    
+    //Identifiers
+    strcpy(identifiers.color, "\\color{Blue}");
+    strcpy(identifiers.fontFamily, "");
+    identifiers.hasFamily = 0;
+    identifiers.isBold = 0;
+    identifiers.isItalic = 0;
+    identifiers.isUnderlined = 0;
+}
+
 void addToken(token t){
     
 }
