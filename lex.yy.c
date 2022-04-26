@@ -838,336 +838,336 @@ case 1:
 YY_RULE_SETUP
 #line 25 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s AUTO\n", yytext);
+    fprintf(tokensTemp, "%s 0\n", yytext);
 }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 #line 28 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s BREAK\n", yytext);
+    fprintf(tokensTemp, "%s 1\n", yytext);
 }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 31 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s CASE\n", yytext);
+    fprintf(tokensTemp, "%s 2\n", yytext);
 }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 34 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s CHAR\n", yytext);
+    fprintf(tokensTemp, "%s 3\n", yytext);
 }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 37 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s CONST\n", yytext);
+    fprintf(tokensTemp, "%s 4\n", yytext);
 }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 40 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s CONTINUE\n", yytext);
+    fprintf(tokensTemp, "%s 5\n", yytext);
 }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 43 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s DEFAULT\n", yytext);
+    fprintf(tokensTemp, "%s 6\n", yytext);
 }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 46 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s DO\n", yytext);
+    fprintf(tokensTemp, "%s 7\n", yytext);
 }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 49 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s ELSE\n", yytext);
+    fprintf(tokensTemp, "%s 8\n", yytext);
 }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 52 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s ENUM\n", yytext);
+    fprintf(tokensTemp, "%s 9\n", yytext);
 }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 55 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s EXTERN\n", yytext);
+    fprintf(tokensTemp, "%s 10\n", yytext);
 }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 58 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s DOUBLE\n", yytext);
+    fprintf(tokensTemp, "%s 11\n", yytext);
 }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 61 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s FLOAT\n", yytext);
+    fprintf(tokensTemp, "%s 12\n", yytext);
 }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 64 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s FOR\n", yytext);
+    fprintf(tokensTemp, "%s 13\n", yytext);
 }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 67 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s GOTO\n", yytext);
+    fprintf(tokensTemp, "%s 14\n", yytext);
 }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 70 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s IF\n", yytext);
+    fprintf(tokensTemp, "%s 15\n", yytext);
 }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 73 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s INT\n", yytext);
+    fprintf(tokensTemp, "%s 16\n", yytext);
 }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 76 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s LONG\n", yytext);
+    fprintf(tokensTemp, "%s 17\n", yytext);
 }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 79 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s REGISTER\n", yytext);
+    fprintf(tokensTemp, "%s 18\n", yytext);
 }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 82 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s RETURN\n", yytext);
+    fprintf(tokensTemp, "%s 19\n", yytext);
 }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 85 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s SHORT\n", yytext);
+    fprintf(tokensTemp, "%s 20\n", yytext);
 }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 88 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s SIGNED\n", yytext);
+    fprintf(tokensTemp, "%s 21\n", yytext);
 }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 91 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s SIZEOF\n", yytext);
+    fprintf(tokensTemp, "%s 22\n", yytext);
 }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 94 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s STATIC\n", yytext);
+    fprintf(tokensTemp, "%s 23\n", yytext);
 }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 97 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s STRUCT\n", yytext);
+    fprintf(tokensTemp, "%s 24\n", yytext);
 }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 100 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s SWITCH\n", yytext);
+    fprintf(tokensTemp, "%s 25\n", yytext);
 }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 103 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s TYPEDEF\n", yytext);
+    fprintf(tokensTemp, "%s 26\n", yytext);
 }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 106 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s UNION\n", yytext);
+    fprintf(tokensTemp, "%s 27\n", yytext);
 }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 109 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s UNSIGNED\n", yytext);
+    fprintf(tokensTemp, "%s 28\n", yytext);
 }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 112 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s VOID\n", yytext);
+    fprintf(tokensTemp, "%s 29\n", yytext);
 }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 115 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s VOLATILE\n", yytext);
+    fprintf(tokensTemp, "%s 30\n", yytext);
 }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 118 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s WHILE\n", yytext);
+    fprintf(tokensTemp, "%s 31\n", yytext);
 }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 122 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s PLUSOP\n", yytext);
+    fprintf(tokensTemp, "%s 32\n", yytext);
 }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 126 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s MINUSOP\n", yytext);
+    fprintf(tokensTemp, "%s 33\n", yytext);
 }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 130 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s ASTERISKOP\n", yytext);
+    fprintf(tokensTemp, "%s 34\n", yytext);
 }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 #line 134 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s SLASHOP\n", yytext);
+    fprintf(tokensTemp, "%s 35\n", yytext);
 }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 138 "scanner.lex"
 {
-    fprintf(tokensTemp, "%s ASSIGNOP\n", yytext);
+    fprintf(tokensTemp, "%s 36\n", yytext);
 }
 	YY_BREAK
 case 38:
 /* rule 38 can match eol */
 YY_RULE_SETUP
 #line 142 "scanner.lex"
-fprintf(tokensTemp, "%s NEWLINE", yytext);
+fprintf(tokensTemp, "%s", yytext);
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
 #line 144 "scanner.lex"
-fprintf(tokensTemp, "%s LPAREN\n", yytext);
+fprintf(tokensTemp, "%s 38\n", yytext);
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
 #line 146 "scanner.lex"
-fprintf(tokensTemp, "%s RPAREN\n", yytext);
+fprintf(tokensTemp, "%s 39\n", yytext);
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
 #line 148 "scanner.lex"
-fprintf(tokensTemp, "%s LSQBRACKET\n", yytext);
+fprintf(tokensTemp, "%s 40\n", yytext);
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
 #line 150 "scanner.lex"
-fprintf(tokensTemp, "%s RSQBRACKET\n", yytext);
+fprintf(tokensTemp, "%s 41\n", yytext);
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
 #line 152 "scanner.lex"
-fprintf(tokensTemp, "%s LBRACKET\n", yytext);
+fprintf(tokensTemp, "%s 42\n", yytext);
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
 #line 154 "scanner.lex"
-fprintf(tokensTemp, "%s RBRACKET\n", yytext);
+fprintf(tokensTemp, "%s 43\n", yytext);
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
 #line 156 "scanner.lex"
-fprintf(tokensTemp, "%s COMMA\n", yytext);
+fprintf(tokensTemp, "%s 44\n", yytext);
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
 #line 158 "scanner.lex"
-fprintf(tokensTemp, "%s SEMICOLON\n", yytext);
+fprintf(tokensTemp, "%s 45\n", yytext);
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
 #line 160 "scanner.lex"
-fprintf(tokensTemp, "%s ID\n", yytext);
+fprintf(tokensTemp, "%s 46\n", yytext);
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
 #line 162 "scanner.lex"
-fprintf(tokensTemp, "%s INTLITERAL\n", yytext);
+fprintf(tokensTemp, "%s 48\n", yytext);
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
 #line 164 "scanner.lex"
-fprintf(tokensTemp, "%s FLOATLITERAL\n", yytext);
+fprintf(tokensTemp, "%s 49\n", yytext);
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
 #line 166 "scanner.lex"
-fprintf(tokensTemp, "%s DOUBLELITERAL\n", yytext);
+fprintf(tokensTemp, "%s 50\n", yytext);
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
 #line 168 "scanner.lex"
-fprintf(tokensTemp, "%s CHARLITERAL\n", yytext);
+fprintf(tokensTemp, "%s 51\n", yytext);
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
 #line 170 "scanner.lex"
-fprintf(tokensTemp, "%s INVALIDSUFFIX\n", yytext);
+fprintf(tokensTemp, "%s 52\n", yytext);
 	YY_BREAK
 case 53:
 YY_RULE_SETUP

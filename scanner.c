@@ -1,10 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 typedef char string [512];
 FILE* tokens;
 int start = 0;
-char token_buffer[512];
+string token_buffer;
 int token_buffer_index = 0;
 
 void clear_token_buffer(void){
@@ -23,14 +24,14 @@ void token_buffer_char(char c){
 }
 
 typedef struct Tokens{
+    char lexeme[256];
     enum tokenCode {AUTO, BREAK, CASE, CHAR, CONST, CONTINUE, DEFAULT, DO, ELSE, ENUM, EXTERN, DOUBLE, FLOAT, FOR,
         GOTO, IF, INT, LONG, REGISTER, RETURN, SHORT, SIGNED, SIZEOF, STATIC, STRUCT, SWITCH, TYPEDEF, UNION, UNSIGNED, 
         VOID, VOLATILE, WHILE, PLUSOP, MINUSOP, ASTERISKOP, SLASHOP, ASSIGNOP, NEWLINE, LPAREN, RPAREN, LSQBRACKET, RSQBRACKET,
         LBRACKET, RBRACKET, COMMA, SEMICOLON, ID, INTLITERAL, FLOATLITERAL, DOUBLELITERAL, CHARLITERAL, INVALIDSUFFIX, ENDOF} code;
-    char lexeme[512];
 } token;
 
-const char* tokenNames[] = {"AUTO", "BREAK", "CASE", "CHAR", "CONST", "CONTINUE", "DEFAULT", "DO", "ELSE", "ENUM", "EXTERN", "DOUBLE", "FLOAT", "FOR",
+const string tokenNames[] = {"AUTO", "BREAK", "CASE", "CHAR", "CONST", "CONTINUE", "DEFAULT", "DO", "ELSE", "ENUM", "EXTERN", "DOUBLE", "FLOAT", "FOR",
         "GOTO", "IF", "INT", "LONG", "REGISTER", "RETURN", "SHORT", "SIGNED", "SIZEOF", "STATIC", "STRUCT", "SWITCH", "TYPEDEF", "UNION", "UNSIGNED", 
         "VOID", "VOLATILE", "WHILE", "PLUSOP", "MINUSOP", "ASTERISKOP", "SLASHOP", "ASSIGNOP", "NEWLINE", "LPAREN", "RPAREN", "LSQBRACKET", "RSQBRACKET",
         "LBRACKET", "RBRACKET", "COMMA", "SEMICOLON", "ID", "INTLITERAL", "FLOATLITERAL", "DOUBLELITERAL", "CHARLITERAL", "INVALIDSUFFIX", "ENDOF"};
@@ -54,8 +55,14 @@ token getToken(){
     }
     char c;
     token tok;
-
-    while((c = getc(tokens)) != '\n'){
+    char tokenName[512];
+    c = getc(tokens);
+    if(c == '\n') {
+        tok.code = 37;
+        strcpy(tok.lexeme, "\n");
+        return tok;
+    }
+    while(c != '\n'){
         if(c == EOF){
             tok.code = 52;
             strcpy(tok.lexeme, "");
@@ -64,25 +71,17 @@ token getToken(){
         } else {
             clear_token_buffer();
             token_buffer_char(c);
-            for(c = getc(tokens); c != ' '; c = getc(tokens)){
-                printf("%c\n", c);
+            for(c = getc(tokens); !isspace(c); c = getc(tokens)){
                 token_buffer_char(c);
             }
-            printf("%s\n", token_buffer);
-            printf("%s\n", tok.lexeme);
             strcpy(tok.lexeme, token_buffer);
-            printf("Hola");
             clear_token_buffer();
             for(c = getc(tokens); c != '\n'; c = getc(tokens)){
                 token_buffer_char(c);
             }
-            ungetc(c, tokens);
-            for(int i = 0; i < sizeof tokenNames; i++){
-                if(!strcmp(tokenNames[i], token_buffer)){
-                    tok.code = i;
-                }
-            }
+            tok.code = atoi(token_buffer);
         }
     }
+    
     return tok;
 }

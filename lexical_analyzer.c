@@ -10,7 +10,8 @@ int main()
     preprocessing(fileName);
     remove("interTemp.c");
     compileFlex("cTemp.c");
-    token t = getToken();
-    printf("Lexema: %s, code: %d", t.lexeme, t.code);
+    for(token t = getToken(); t.code < 52; t = getToken()){
+        printf("Lexema: %s, code: %d\n", t.lexeme, t.code);
+    }
     return 0;
 }
