@@ -139,7 +139,7 @@ while {
     fprintf(tokensTemp, "%s 36\n", yytext);
 }
 
-{NEWLINE} fprintf(tokensTemp, "%s 37", yytext);
+{NEWLINE} fprintf(tokensTemp, "%s", yytext);
 
 {LPAREN} fprintf(tokensTemp, "%s 38\n", yytext);
 
