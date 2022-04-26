@@ -1,10 +1,7 @@
 /*Definitions*/
 %{
     #include <stdio.h>
-    #include "scanner.c"
-    int count = 0;
     FILE* tokensTemp;
-    typedef char string [512];
 %}
 %option noyywrap
 LPAREN "("
@@ -179,11 +176,7 @@ while {
 /*User code*/
 int main()
 {
-    tokensTemp = fopen("tokensTemp.c", "w");
-    //string fileName = {};
-    //scanf("%s", fileName);
-    printf("%s\n", fileName);
-    printf("oaisdjfpoijdsafpoijaspifodjp");
-    yyin = fopen( fileName, "r" );
+    tokensTemp = fopen("tokensTemp", "w");
+    yyin = fopen( "cTemp.c", "r" );
     yylex();
 }

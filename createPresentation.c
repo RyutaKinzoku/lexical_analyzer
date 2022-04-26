@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 void createPresentation(){
     FILE* presentation = fopen("beamer/beamerPresentation.tex", "w");
     fprintf(presentation, "%s\n", "\\documentclass [xcolor=svgnames, t] {beamer}"); 

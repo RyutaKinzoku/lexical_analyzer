@@ -8,6 +8,6 @@ int main()
     remove("cTemp.c");
     preprocessing(fileName);
     remove("interTemp.c");
-    compileFlex("a.c");
+    compileFlex("cTemp.c");
     return 0;
 }
