@@ -1,0 +1,76 @@
+\documentclass [xcolor=svgnames, t] {beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs, comment} 
+\usepackage[absolute, overlay]{textpos}
+\usepackage{pgfpages}
+\usepackage[font=footnotesize]{caption}
+
+\setbeamercolor{author in head/foot}{bg=darkcyan}
+\setbeamertemplate{page number in head/foot}{}
+\usepackage{csquotes}
+
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel}
+
+\usepackage{textpos}
+
+\usepackage{tikz}
+
+\usetheme{Madrid}
+\definecolor{darkcyan}{RGB}{0, 139, 139}
+\usecolortheme[named=darkcyan]{structure}
+\usepackage{tikz}
+
+\title[Lexical Analysis]{Lexical Analysis}
+\subtitle{C Language}
+\author[Project 1]{Reyner Marxell Arias Muñoz, Kenneth Ibarra Vargas, David Benavides Naranjo}
+\institute[]{Project 1, Compilers and Interpreters course, I 2022 Semester}
+\date{	oday}
+
+\begin{document}
+\begin{frame}
+\maketitle
+\end{frame}
+
+\begin{frame}{Scanning}
+Since the source file has include and define directives, the preprocessor previously applied each of them correctly so that the scanner receives only a temporary input file.
+\\Afterwards, the scanner goes through the temporary file returning the tokens one by one and in order, according to the parsed source program. In c there are tokens of different types such as operators, identifiers, literals, reserved words and separator characters.
+\\Any character not belonging to the c lexicon that can be parsed is returned as a lexical error.\\
+\begin{figure}
+\centering
+\includegraphics[scale = 0.14]{Scanner.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Scanning}
+The scanner is a lex file, which are comprised of three sections:
+\begin{itemize}
+\item The Definition Section: This sections is made up of several regular expressions that act as global declarations that may be used in the next section.
+\item The Rules Section: This section uses the global declarations of the previous section to define what actions must be taken when a specific regular expression is found.
+\item The Code Section: This section is attached at the end of the lex output file and may contain any code written and executed by the C code, due to lex usually being paired with yacc. \\
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Tokens}
+\begin{itemize}
+\color{OrangeRed}
+\item \emph{Operators}
+\color{purple}
+{\fontfamily{qbk} \selectfont \item Intliterals}
+\color{Turquoise}
+{\fontfamily{qbk} \selectfont \item \textbf{Floatliterals}}
+\color{CadetBlue}
+{\fontfamily{qbk} \selectfont \item \underline{\emph{\textbf{Doubleliteral}}}}
+\color{violet}
+{\fontfamily{lmdh} \selectfont \item Charliteral}
+\color{ForestGreen}
+{\fontfamily{lmdh} \selectfont \item \textbf{Stringliteral}}
+\color{olive}
+\item \underline{\textbf{Reserved Words}}
+\color{cyan}
+\item \emph{Separator characters}
+\color{blue}
+\item Identifiers
+\end{itemize}
+\end{frame}
+\end{document}

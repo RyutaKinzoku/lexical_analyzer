@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 void createPresentation(){
-    FILE* presentation = fopen("beamer/beamerPresentation.tex", "w");
+    FILE* presentation = fopen("beamerPresentation.tex", "w");
     fprintf(presentation, "%s\n", "\\documentclass [xcolor=svgnames, t] {beamer}"); 
     fprintf(presentation, "%s\n", "\\usepackage[utf8]{inputenc}");
     fprintf(presentation, "%s\n", "\\usepackage{booktabs, comment} "); 
@@ -78,4 +78,5 @@ void createPresentation(){
     fprintf(presentation, "%s\n", "\\end{itemize}");
     fprintf(presentation, "%s\n", "\\end{frame}");
     fprintf(presentation, "%s\n", "\\end{document}");
+    fclose(presentation);
 }

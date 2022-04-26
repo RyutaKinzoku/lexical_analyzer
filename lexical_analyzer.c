@@ -1,5 +1,7 @@
+#include <stdio.h>
 #include "preprocessing.c"
 #include "scanner.c"
+#include "createPresentation.c"
 
 int main()
 {
@@ -13,5 +15,10 @@ int main()
     for(token t = getToken(); t.code < 52; t = getToken()){
         printf("Lexema: %s, code: %d\n", t.lexeme, t.code);
     }
+    remove("cTemp.c");
+    createPresentation();
+    command("cd beamer");
+    command("pdflatex beamerPresentation.tex");
+    command("evince -f beamerPresentation.pdf");
     return 0;
 }
