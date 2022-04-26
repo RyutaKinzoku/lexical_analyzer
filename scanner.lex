@@ -1,6 +1,10 @@
 /*Definitions*/
 %{
+    #include <stdio.h>
+    #include "scanner.c"
     int count = 0;
+    FILE* tokensTemp;
+    typedef char string [512];
 %}
 %option noyywrap
 LPAREN "("
@@ -10,166 +14,176 @@ RSQBRACKET "]"
 LBRACKET "{"
 RBRACKET "}"
 SEMICOLON ";"
+COMMA ","
+NEWLINE "\n"
 ID (([a-z]|[A-Z])|_)((([a-z]|[A-Z])|_)|[0-9])*
 INTLITERAL [0-9][0-9]*
 FLOATLITERAL ({INTLITERAL}+"."{INTLITERAL}*)
 DOUBLELITERAL ({FLOATLITERAL}+"e"{INTLITERAL})
 CHARLITERAL [^( |\n)]
-STRINGLITERAL \"(([^\"]|\\\")*[^\\])?\"
+INVALIDSUFFIX [0-9]([a-z]|[A-Z]|_|[0-9])*
 
 /*Rules*/
 %%
 auto {
-    printf( "An auto keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 break {
-    printf( "A break keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 case {
-    printf( "A case keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 char {
-    printf( "A char keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 const {
-    printf( "A const keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 continue {
-    printf( "A continue keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 default {
-    printf( "A default keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 do {
-    printf( "A do keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 else {
-    printf( "An else keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 enum {
-    printf( "An enum keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 extern {
-    printf( "An extern keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 double {
-    printf( "A double keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 float {
-    printf( "A float keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 for {
-    printf( "A float keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 goto {
-    printf( "A goto keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 if {
-    printf( "An if keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 int {
-    printf( "An int keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 long {
-    printf( "A long keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 register {
-    printf( "A register keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 return {
-    printf( "A return keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 short {
-    printf( "A short keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 signed {
-    printf( "A signed keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 sizeof {
-    printf( "A sizeof keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 static {
-    printf( "A static keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 struct {
-    printf( "A struct keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 switch {
-    printf( "A switch keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 typedef {
-    printf( "A typedef keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 union {
-    printf( "A union keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 unsigned {
-    printf( "An unsigned keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 void {
-    printf( "A void keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 volatile {
-    printf( "A volatile keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 while {
-    printf( "A while keyword: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 
 "+" {
-    printf( "A plus operator: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 
 "-" {
-    printf( "A minus operator: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 
 "*" {
-    printf( "A multiplication operator: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 
 "/" {
-    printf( "A division operator: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 
 "=" {
-    printf( "An equals operator: %s\n", yytext );
+    fprintf(tokensTemp, "%s\n", yytext);
 }
 
-{LPAREN} printf( "A left parenthesis: %s\n", yytext );
+{NEWLINE} fprintf(tokensTemp, "%s", yytext);
 
-{RPAREN} printf( "A right parenthesis: %s\n", yytext );
+{LPAREN} fprintf(tokensTemp, "%s\n", yytext);
 
-{LSQBRACKET} printf( "A left square bracket: %s\n", yytext );
+{RPAREN} fprintf(tokensTemp, "%s\n", yytext);
 
-{RSQBRACKET} printf( "A right square bracket: %s\n", yytext );
+{LSQBRACKET} fprintf(tokensTemp, "%s\n", yytext);
 
-{LBRACKET} printf( "A left bracket: %s\n", yytext );
+{RSQBRACKET} fprintf(tokensTemp, "%s\n", yytext);
 
-{RBRACKET} printf( "A right bracket: %s\n", yytext );
+{LBRACKET} fprintf(tokensTemp, "%s\n", yytext);
 
-{SEMICOLON} printf( "A semicolon: %s\n", yytext );
+{RBRACKET} fprintf(tokensTemp, "%s\n", yytext);
 
-{ID} printf( "An identifier: %s\n", yytext );
+{COMMA} fprintf(tokensTemp, "%s\n", yytext);
 
-{INTLITERAL} printf( "An integer: %s\n", yytext );
+{SEMICOLON} fprintf(tokensTemp, "%s\n", yytext);
 
-{FLOATLITERAL} printf( "A float: %s\n", yytext );
+{ID} fprintf(tokensTemp, "%s\n", yytext);
 
-{DOUBLELITERAL} printf( "A double: %s\n", yytext );
+{INTLITERAL} fprintf(tokensTemp, "%s\n", yytext);
 
-{CHARLITERAL} printf( "A char: %s\n", yytext );
+{FLOATLITERAL} fprintf(tokensTemp, "%s\n", yytext);
 
-[ \t\n]+ /* eat up whitespace */
+{DOUBLELITERAL} fprintf(tokensTemp, "%s\n", yytext);
+
+{CHARLITERAL} fprintf(tokensTemp, "%s\n", yytext);
+
+{INVALIDSUFFIX} fprintf(tokensTemp, "%s\n", yytext);
+
+[ \t]+ /* eat up whitespace */
 
 %%
 
 /*User code*/
 int main()
 {
-    typedef char string [512];
-    string fileName = {};
-    scanf("%s", fileName);
+    tokensTemp = fopen("tokensTemp.c", "w");
+    //string fileName = {};
+    //scanf("%s", fileName);
+    printf("%s\n", fileName);
+    printf("oaisdjfpoijdsafpoijaspifodjp");
     yyin = fopen( fileName, "r" );
     yylex();
 }

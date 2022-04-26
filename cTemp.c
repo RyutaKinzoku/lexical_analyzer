@@ -1,11 +1,7 @@
-int test(){
-printf("%d", 1);
+int main()
+{
+int _ = 87;
+float irjhfio23p = 127.654;
+double iyu = 418.e13;
+return 0;
 }
-int cinco = 5;
-int main(){
-int t = 10030;
-int r = hola();
-char f[10] = " a \n";
-int v = 1;
-printf("%s", f);
-} 
