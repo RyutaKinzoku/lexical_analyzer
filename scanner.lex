@@ -171,6 +171,42 @@ while {
     fprintf(tokensTemp, "%s 59\n", yytext);
 }
 
+"<" {
+    fprintf(tokensTemp, "%s 60\n", yytext);
+}
+
+">" {
+    fprintf(tokensTemp, "%s 61\n", yytext);
+}
+
+"<=" {
+    fprintf(tokensTemp, "%s 62\n", yytext);
+}
+
+">=" {
+    fprintf(tokensTemp, "%s 63\n", yytext);
+}
+
+"==" {
+    fprintf(tokensTemp, "%s 64\n", yytext);
+}
+
+"!=" {
+    fprintf(tokensTemp, "%s 65\n", yytext);
+}
+
+"!" {
+    fprintf(tokensTemp, "%s 66\n", yytext);
+}
+
+"&&" {
+    fprintf(tokensTemp, "%s 67\n", yytext);
+}
+
+"||" {
+    fprintf(tokensTemp, "%s 68\n", yytext);
+}
+
 {NEWLINE} fprintf(tokensTemp, "%s", yytext);
 
 {LPAREN} fprintf(tokensTemp, "%s 38\n", yytext);
