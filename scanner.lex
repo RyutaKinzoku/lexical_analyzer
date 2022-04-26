@@ -23,151 +23,151 @@ INVALIDSUFFIX [0-9]([a-z]|[A-Z]|_|[0-9])*
 /*Rules*/
 %%
 auto {
-    fprintf(tokensTemp, "%s AUTO\n", yytext);
+    fprintf(tokensTemp, "%s 0\n", yytext);
 }
 break {
-    fprintf(tokensTemp, "%s BREAK\n", yytext);
+    fprintf(tokensTemp, "%s 1\n", yytext);
 }
 case {
-    fprintf(tokensTemp, "%s CASE\n", yytext);
+    fprintf(tokensTemp, "%s 2\n", yytext);
 }
 char {
-    fprintf(tokensTemp, "%s CHAR\n", yytext);
+    fprintf(tokensTemp, "%s 3\n", yytext);
 }
 const {
-    fprintf(tokensTemp, "%s CONST\n", yytext);
+    fprintf(tokensTemp, "%s 4\n", yytext);
 }
 continue {
-    fprintf(tokensTemp, "%s CONTINUE\n", yytext);
+    fprintf(tokensTemp, "%s 5\n", yytext);
 }
 default {
-    fprintf(tokensTemp, "%s DEFAULT\n", yytext);
+    fprintf(tokensTemp, "%s 6\n", yytext);
 }
 do {
-    fprintf(tokensTemp, "%s DO\n", yytext);
+    fprintf(tokensTemp, "%s 7\n", yytext);
 }
 else {
-    fprintf(tokensTemp, "%s ELSE\n", yytext);
+    fprintf(tokensTemp, "%s 8\n", yytext);
 }
 enum {
-    fprintf(tokensTemp, "%s ENUM\n", yytext);
+    fprintf(tokensTemp, "%s 9\n", yytext);
 }
 extern {
-    fprintf(tokensTemp, "%s EXTERN\n", yytext);
+    fprintf(tokensTemp, "%s 10\n", yytext);
 }
 double {
-    fprintf(tokensTemp, "%s DOUBLE\n", yytext);
+    fprintf(tokensTemp, "%s 11\n", yytext);
 }
 float {
-    fprintf(tokensTemp, "%s FLOAT\n", yytext);
+    fprintf(tokensTemp, "%s 12\n", yytext);
 }
 for {
-    fprintf(tokensTemp, "%s FOR\n", yytext);
+    fprintf(tokensTemp, "%s 13\n", yytext);
 }
 goto {
-    fprintf(tokensTemp, "%s GOTO\n", yytext);
+    fprintf(tokensTemp, "%s 14\n", yytext);
 }
 if {
-    fprintf(tokensTemp, "%s IF\n", yytext);
+    fprintf(tokensTemp, "%s 15\n", yytext);
 }
 int {
-    fprintf(tokensTemp, "%s INT\n", yytext);
+    fprintf(tokensTemp, "%s 16\n", yytext);
 }
 long {
-    fprintf(tokensTemp, "%s LONG\n", yytext);
+    fprintf(tokensTemp, "%s 17\n", yytext);
 }
 register {
-    fprintf(tokensTemp, "%s REGISTER\n", yytext);
+    fprintf(tokensTemp, "%s 18\n", yytext);
 }
 return {
-    fprintf(tokensTemp, "%s RETURN\n", yytext);
+    fprintf(tokensTemp, "%s 19\n", yytext);
 }
 short {
-    fprintf(tokensTemp, "%s SHORT\n", yytext);
+    fprintf(tokensTemp, "%s 20\n", yytext);
 }
 signed {
-    fprintf(tokensTemp, "%s SIGNED\n", yytext);
+    fprintf(tokensTemp, "%s 21\n", yytext);
 }
 sizeof {
-    fprintf(tokensTemp, "%s SIZEOF\n", yytext);
+    fprintf(tokensTemp, "%s 22\n", yytext);
 }
 static {
-    fprintf(tokensTemp, "%s STATIC\n", yytext);
+    fprintf(tokensTemp, "%s 23\n", yytext);
 }
 struct {
-    fprintf(tokensTemp, "%s STRUCT\n", yytext);
+    fprintf(tokensTemp, "%s 24\n", yytext);
 }
 switch {
-    fprintf(tokensTemp, "%s SWITCH\n", yytext);
+    fprintf(tokensTemp, "%s 25\n", yytext);
 }
 typedef {
-    fprintf(tokensTemp, "%s TYPEDEF\n", yytext);
+    fprintf(tokensTemp, "%s 26\n", yytext);
 }
 union {
-    fprintf(tokensTemp, "%s UNION\n", yytext);
+    fprintf(tokensTemp, "%s 27\n", yytext);
 }
 unsigned {
-    fprintf(tokensTemp, "%s UNSIGNED\n", yytext);
+    fprintf(tokensTemp, "%s 28\n", yytext);
 }
 void {
-    fprintf(tokensTemp, "%s VOID\n", yytext);
+    fprintf(tokensTemp, "%s 29\n", yytext);
 }
 volatile {
-    fprintf(tokensTemp, "%s VOLATILE\n", yytext);
+    fprintf(tokensTemp, "%s 30\n", yytext);
 }
 while {
-    fprintf(tokensTemp, "%s WHILE\n", yytext);
+    fprintf(tokensTemp, "%s 31\n", yytext);
 }
 
 "+" {
-    fprintf(tokensTemp, "%s PLUSOP\n", yytext);
+    fprintf(tokensTemp, "%s 32\n", yytext);
 }
 
 "-" {
-    fprintf(tokensTemp, "%s MINUSOP\n", yytext);
+    fprintf(tokensTemp, "%s 33\n", yytext);
 }
 
 "*" {
-    fprintf(tokensTemp, "%s ASTERISKOP\n", yytext);
+    fprintf(tokensTemp, "%s 34\n", yytext);
 }
 
 "/" {
-    fprintf(tokensTemp, "%s SLASHOP\n", yytext);
+    fprintf(tokensTemp, "%s 35\n", yytext);
 }
 
 "=" {
-    fprintf(tokensTemp, "%s ASSIGNOP\n", yytext);
+    fprintf(tokensTemp, "%s 36\n", yytext);
 }
 
-{NEWLINE} fprintf(tokensTemp, "%s NEWLINE", yytext);
+{NEWLINE} fprintf(tokensTemp, "%s 37", yytext);
 
-{LPAREN} fprintf(tokensTemp, "%s LPAREN\n", yytext);
+{LPAREN} fprintf(tokensTemp, "%s 38\n", yytext);
 
-{RPAREN} fprintf(tokensTemp, "%s RPAREN\n", yytext);
+{RPAREN} fprintf(tokensTemp, "%s 39\n", yytext);
 
-{LSQBRACKET} fprintf(tokensTemp, "%s LSQBRACKET\n", yytext);
+{LSQBRACKET} fprintf(tokensTemp, "%s 40\n", yytext);
 
-{RSQBRACKET} fprintf(tokensTemp, "%s RSQBRACKET\n", yytext);
+{RSQBRACKET} fprintf(tokensTemp, "%s 41\n", yytext);
 
-{LBRACKET} fprintf(tokensTemp, "%s LBRACKET\n", yytext);
+{LBRACKET} fprintf(tokensTemp, "%s 42\n", yytext);
 
-{RBRACKET} fprintf(tokensTemp, "%s RBRACKET\n", yytext);
+{RBRACKET} fprintf(tokensTemp, "%s 43\n", yytext);
 
-{COMMA} fprintf(tokensTemp, "%s COMMA\n", yytext);
+{COMMA} fprintf(tokensTemp, "%s 44\n", yytext);
 
-{SEMICOLON} fprintf(tokensTemp, "%s SEMICOLON\n", yytext);
+{SEMICOLON} fprintf(tokensTemp, "%s 45\n", yytext);
 
-{ID} fprintf(tokensTemp, "%s ID\n", yytext);
+{ID} fprintf(tokensTemp, "%s 46\n", yytext);
 
-{INTLITERAL} fprintf(tokensTemp, "%s INTLITERAL\n", yytext);
+{INTLITERAL} fprintf(tokensTemp, "%s 48\n", yytext);
 
-{FLOATLITERAL} fprintf(tokensTemp, "%s FLOATLITERAL\n", yytext);
+{FLOATLITERAL} fprintf(tokensTemp, "%s 49\n", yytext);
 
-{DOUBLELITERAL} fprintf(tokensTemp, "%s DOUBLELITERAL\n", yytext);
+{DOUBLELITERAL} fprintf(tokensTemp, "%s 50\n", yytext);
 
-{CHARLITERAL} fprintf(tokensTemp, "%s CHARLITERAL\n", yytext);
+{CHARLITERAL} fprintf(tokensTemp, "%s 51\n", yytext);
 
-{INVALIDSUFFIX} fprintf(tokensTemp, "%s INVALIDSUFFIX\n", yytext);
+{INVALIDSUFFIX} fprintf(tokensTemp, "%s 52\n", yytext);
 
 [ \t]+ /* eat up whitespace */
 
