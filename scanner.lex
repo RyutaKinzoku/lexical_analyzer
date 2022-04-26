@@ -139,6 +139,10 @@ while {
     fprintf(tokensTemp, "%s 36\n", yytext);
 }
 
+"+=" {
+    fprintf(tokensTemp, "%s 52\n", yytext);
+}
+
 {NEWLINE} fprintf(tokensTemp, "%s", yytext);
 
 {LPAREN} fprintf(tokensTemp, "%s 38\n", yytext);
@@ -167,7 +171,7 @@ while {
 
 {CHARLITERAL} fprintf(tokensTemp, "%s 51\n", yytext);
 
-{INVALIDSUFFIX} fprintf(tokensTemp, "%s 52\n", yytext);
+{INVALIDSUFFIX} fprintf(tokensTemp, "%s 53\n", yytext);
 
 [ \t]+ /* eat up whitespace */
 
