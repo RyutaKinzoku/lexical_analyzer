@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "scanner.c"
 
 typedef struct Types{
     char color[128];
@@ -9,8 +10,9 @@ typedef struct Types{
     int isUnderlined;
 } type;
 
-type categories[30];
-type operators, intLiterals, floatLiterals, doubleLiteral, charLiteral, stringLiteral, reservedWords, separators, identifiers;
+int lineQuantity = 0;
+
+type operators, intLiterals, floatLiterals, doubleLiteral, charLiteral, stringLiteral, reservedWords, separators, identifiers, errors;
 
 void setCategories(){
     //Operators
@@ -84,10 +86,37 @@ void setCategories(){
     identifiers.isBold = 0;
     identifiers.isItalic = 0;
     identifiers.isUnderlined = 0;
+
+    //Errors
+    strcpy(errors.color, "\\color{Blue}");
+    strcpy(errors.fontFamily, "");
+    errors.hasFamily = 0;
+    errors.isBold = 0;
+    errors.isItalic = 0;
+    errors.isUnderlined = 0;
+}
+
+void openSlide(){
+    FILE* presentation = fopen("beamerPresentation.tex", "a+");
+    fprintf(presentation, "%s\n", "\\begin{frame}{Font Lines}");
+    fclose(presentation);
+}
+
+void closeSlide(){
+    FILE* presentation = fopen("beamerPresentation.tex", "a+");
+    fprintf(presentation, "%s\n", "\\end{frame}");
+    fclose(presentation);
 }
 
 void addToken(token t){
-    
+    if(lineQuantity == 8) {
+        closeSlide();
+        lineQuantity = 0;
+    }
+    if(lineQuantity == 0) startSlide();
+    FILE* presentation = fopen("beamerPresentation.tex", "a+");
+    fprintf(presentation, "%s\n", "\\end{frame}");
+    fclose(presentation);
 }
 
 void createPresentation(){
@@ -136,7 +165,7 @@ void createPresentation(){
     fprintf(presentation, "%s\n", "\\end{figure}");
     fprintf(presentation, "%s\n\n", "\\end{frame}");
 
-    fprintf(presentation, "%s\n", "\\begin{frame}{Scanning}");
+    fprintf(presentation, "%s\n", "\\begin{frame}{FLEX}");
     fprintf(presentation, "%s\n", "The scanner is a lex file, which are comprised of three sections:");
     fprintf(presentation, "%s\n", "\\begin{itemize}");
     fprintf(presentation, "%s\n", "\\item The Definition Section: This sections is made up of several regular expressions that act as global declarations that may be used in the next section.");
@@ -167,6 +196,5 @@ void createPresentation(){
     fprintf(presentation, "%s\n", "\\item Identifiers");
     fprintf(presentation, "%s\n", "\\end{itemize}");
     fprintf(presentation, "%s\n", "\\end{frame}");
-    fprintf(presentation, "%s\n", "\\end{document}");
     fclose(presentation);
 }

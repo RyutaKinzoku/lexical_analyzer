@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "preprocessing.c"
-#include "scanner.c"
 #include "createPresentation.c"
 
 int main()
