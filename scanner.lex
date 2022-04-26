@@ -207,6 +207,66 @@ while {
     fprintf(tokensTemp, "%s 68\n", yytext);
 }
 
+"<<" {
+    fprintf(tokensTemp, "%s 69\n", yytext);
+}
+
+"<<=" {
+    fprintf(tokensTemp, "%s 70\n", yytext);
+}
+
+">>" {
+    fprintf(tokensTemp, "%s 71\n", yytext);
+}
+
+">>=" {
+    fprintf(tokensTemp, "%s 72\n", yytext);
+}
+
+"~" {
+    fprintf(tokensTemp, "%s 73\n", yytext);
+}
+
+"&" {
+    fprintf(tokensTemp, "%s 74\n", yytext);
+}
+
+"&=" {
+    fprintf(tokensTemp, "%s 75\n", yytext);
+}
+
+"|" {
+    fprintf(tokensTemp, "%s 76\n", yytext);
+}
+
+"|=" {
+    fprintf(tokensTemp, "%s 77\n", yytext);
+}
+
+"^" {
+    fprintf(tokensTemp, "%s 78\n", yytext);
+}
+
+"^=" {
+    fprintf(tokensTemp, "%s 79\n", yytext);
+}
+
+"->" {
+    fprintf(tokensTemp, "%s 80\n", yytext);
+}
+
+"." {
+    fprintf(tokensTemp, "%s 81\n", yytext);
+}
+
+"?" {
+    fprintf(tokensTemp, "%s 82\n", yytext);
+}
+
+":" {
+    fprintf(tokensTemp, "%s 83\n", yytext);
+}
+
 {NEWLINE} fprintf(tokensTemp, "%s", yytext);
 
 {LPAREN} fprintf(tokensTemp, "%s 38\n", yytext);
