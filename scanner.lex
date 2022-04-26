@@ -143,6 +143,34 @@ while {
     fprintf(tokensTemp, "%s 52\n", yytext);
 }
 
+"-=" {
+    fprintf(tokensTemp, "%s 53\n", yytext);
+}
+
+"*=" {
+    fprintf(tokensTemp, "%s 54\n", yytext);
+}
+
+"/=" {
+    fprintf(tokensTemp, "%s 55\n", yytext);
+}
+
+"%" {
+    fprintf(tokensTemp, "%s 56\n", yytext);
+}
+
+"%=" {
+    fprintf(tokensTemp, "%s 57\n", yytext);
+}
+
+"++" {
+    fprintf(tokensTemp, "%s 58\n", yytext);
+}
+
+"--" {
+    fprintf(tokensTemp, "%s 59\n", yytext);
+}
+
 {NEWLINE} fprintf(tokensTemp, "%s", yytext);
 
 {LPAREN} fprintf(tokensTemp, "%s 38\n", yytext);
@@ -163,15 +191,15 @@ while {
 
 {ID} fprintf(tokensTemp, "%s 46\n", yytext);
 
-{INTLITERAL} fprintf(tokensTemp, "%s 48\n", yytext);
+{INTLITERAL} fprintf(tokensTemp, "%s 47\n", yytext);
 
-{FLOATLITERAL} fprintf(tokensTemp, "%s 49\n", yytext);
+{FLOATLITERAL} fprintf(tokensTemp, "%s 48\n", yytext);
 
-{DOUBLELITERAL} fprintf(tokensTemp, "%s 50\n", yytext);
+{DOUBLELITERAL} fprintf(tokensTemp, "%s 49\n", yytext);
 
-{CHARLITERAL} fprintf(tokensTemp, "%s 51\n", yytext);
+{CHARLITERAL} fprintf(tokensTemp, "%s 50\n", yytext);
 
-{INVALIDSUFFIX} fprintf(tokensTemp, "%s 53\n", yytext);
+{INVALIDSUFFIX} fprintf(tokensTemp, "%s 51\n", yytext);
 
 [ \t]+ /* eat up whitespace */
 
