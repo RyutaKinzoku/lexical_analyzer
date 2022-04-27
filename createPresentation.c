@@ -318,7 +318,7 @@ void createHistogram(){
     fprintf(presentation, "\\addplot[color=olive, fill=olive] coordinates { (0, 0) (5, 0) (10, 0) (15, 0) (20, 0) (25, 0) (30, %d) (35, 0) (40, 0) (45, 0) (50, 0)};\n",categoriesQuantity[6] );
     fprintf(presentation, "\\addplot[color=Black, fill=Black] coordinates { (0, 0) (5, 0) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, %d) (40, 0) (45, 0) (50, 0)};\n",categoriesQuantity[7] );
     fprintf(presentation, "\\addplot[color=blue, fill=blue] coordinates { (0, 0) (5, 0) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, %d) (45, 0) (50, 0)};\n",categoriesQuantity[8] );
-    fprintf(presentation, "\\addplot[color=Pink, fill=Pink] coordinates { (0, 0) (5, 0) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, 0) (45, 0) (50, %d)};\n",categoriesQuantity[9] );
+    fprintf(presentation, "\\addplot[color=Pink, fill=Pink] coordinates { (0, 0) (5, 0) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, 0) (45, %d) (50, 0)};\n",categoriesQuantity[9] );
     fprintf(presentation, "%s\n", "\\legend{Operators, IntLiterals, FloatLiterals, DoubleLiterals, CharLiterals, StringLiterals, ReservedWords, Separators, Id, Errors}");
     fprintf(presentation, "%s\n", "\\end{axis}");
     fprintf(presentation, "%s\n", "\\end{tikzpicture}");
