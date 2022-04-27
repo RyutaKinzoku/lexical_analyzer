@@ -75,10 +75,10 @@ token getToken(){
         strcpy(tok.lexeme, "\n");
         return tok;
     }
+    memset(tok.lexeme, 0, sizeof tok.lexeme);
     while(c != '\n'){
         if(c == EOF){
             tok.code = ENDOF;
-            strcpy(tok.lexeme, "");
             fclose(tokens);
             return tok;
         } else {

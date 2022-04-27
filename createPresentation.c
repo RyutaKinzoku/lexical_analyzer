@@ -116,6 +116,22 @@ void closeSlide(){
     fclose(presentation);
 }
 
+void fprintfLexeme(char* prefix, char* suffix, FILE* presentation, char* lexeme){
+    fprintf(presentation, "%s", prefix);
+    for(int i = 0; lexeme[i] != 0; i++) {
+        if(lexeme[i] == '%') fprintf(presentation, "%s", "\\%");
+        else if (lexeme[i] == '{') {
+            fprintf(presentation, "%s", "\\{");
+            printf("Soy un bracket");
+        } 
+        else if (lexeme[i] == '}') fprintf(presentation, "%s", "\\}");
+        else if (lexeme[i] == '\\') fprintf(presentation, "%s", "\\textbackslash ");
+        else if (lexeme[i] > 127) fprintf(presentation, "%s", "<E>");
+        else fprintf(presentation, "%c", lexeme[i]);
+    }
+    fprintf(presentation, "%s", suffix);
+}
+
 void addToken(token t){
     if(t.code == NEWLINE) {
         lineQuantity += ceil(charQuantity/46);
@@ -132,7 +148,7 @@ void addToken(token t){
         closeSlide();
     } else {
         charQuantity++;
-        for(int i = 0; t.lexeme[i] != ""; i++) {
+        for(int i = 0; t.lexeme[i] != 0; i++) {
             charQuantity++;
         }
         if(46*lineQuantity+charQuantity>736) {
@@ -143,40 +159,40 @@ void addToken(token t){
         FILE* presentation = fopen("beamerPresentation.tex", "a+");
         if(t.code >= PLUSOP && t.code < INTLITERAL){
             fprintf(presentation, "%s\n", operators.color);
-            fprintf(presentation, "\\emph{%s} \n", t.lexeme);
+            fprintfLexeme("\\emph{", "} \n", presentation, t.lexeme);
         } else if(t.code == INTLITERAL){
             fprintf(presentation, "%s\n", intLiterals.color);
             fprintf(presentation, "{\\fontfamily{%s", intLiterals.fontFamily);
-            fprintf(presentation, "} \\selectfont %s} \n", t.lexeme);
+            fprintfLexeme("} \\selectfont ", "} \n", presentation, t.lexeme);
         } else if(t.code == FLOATLITERAL){
             fprintf(presentation, "%s\n", floatLiterals.color);
             fprintf(presentation, "{\\fontfamily{%s", floatLiterals.fontFamily);
-            fprintf(presentation, "} \\selectfont \\textbf{%s}} \n", t.lexeme);
+            fprintfLexeme("} \\selectfont \\textbf{", "}} \n", presentation, t.lexeme);
         } else if(t.code == DOUBLELITERAL){
             fprintf(presentation, "%s\n", doubleLiterals.color);
             fprintf(presentation, "{\\fontfamily{%s", doubleLiterals.fontFamily);
-            fprintf(presentation, "} \\selectfont \\textbf{\\underline{\\emph{%s}}}} \n", t.lexeme);
+            fprintfLexeme("} \\selectfont \\textbf{\\underline{\\emph{", "}}}} \n", presentation, t.lexeme);
         } else if(t.code == CHARLITERAL){
             fprintf(presentation, "%s\n", charLiterals.color);
             fprintf(presentation, "{\\fontfamily{%s", charLiterals.fontFamily);
-            fprintf(presentation, "} \\selectfont %s} \n", t.lexeme);
+            fprintfLexeme("} \\selectfont ", "} \n", presentation, t.lexeme);
         } else if(t.code == STRINGLITERAL){
             fprintf(presentation, "%s\n", stringLiterals.color);
             fprintf(presentation, "{\\fontfamily{%s", stringLiterals.fontFamily);
-            fprintf(presentation, "} \\selectfont \\textbf{%s}} \n", t.lexeme);
+            fprintfLexeme("} \\selectfont \\textbf{", "}} \n", presentation, t.lexeme);
         } else if(t.code >= AUTO && t.code < LPAREN){
             fprintf(presentation, "%s\n", reservedWords.color);
-            fprintf(presentation, "\\textbf{\\underlined{%s}} \n", t.lexeme);
+            fprintfLexeme("\\textbf{\\underline{", "}} \n", presentation, t.lexeme);
         } else if(t.code >= LPAREN && t.code < ID){
             fprintf(presentation, "%s\n", separators.color);
-            fprintf(presentation, "\\emph{%s} \n", t.lexeme);
+            fprintfLexeme("\\emph{", "} \n", presentation, t.lexeme);
         } else if(t.code == ID){
             fprintf(presentation, "%s\n", identifiers.color);
-            fprintf(presentation, "%s \n", t.lexeme);
+            fprintfLexeme("", " \n", presentation, t.lexeme);
         } else if(t.code >= INVALIDSUFFIX && t.code < NEWLINE){
             fprintf(presentation, "%s\n", errors.color);
             fprintf(presentation, "{\\fontfamily{%s", errors.fontFamily);
-            fprintf(presentation, "} \\selectfont \\underline{%s}} \n", t.lexeme);
+            fprintfLexeme("} \\selectfont \\underline{", "}} \n", presentation, t.lexeme);
         }
         
         fclose(presentation);

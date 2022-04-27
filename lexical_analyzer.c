@@ -26,8 +26,7 @@ int main()
     endDocument();
 
     remove("cTemp.c");
-    command("cd beamer");
-    command("pdflatex beamerPresentation.tex");
-    command("evince -f beamerPresentation.pdf");
+    //command("pdflatex beamerPresentation.tex");
+    //command("evince -f beamerPresentation.pdf");
     return 0;
 }
