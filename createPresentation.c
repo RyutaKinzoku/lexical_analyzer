@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 #include "scanner.c"
 
 typedef struct Types{
@@ -13,7 +14,7 @@ typedef struct Types{
 int lineQuantity = 0;
 int charQuantity = 0;
 
-type operators, intLiterals, floatLiterals, doubleLiteral, charLiteral, stringLiteral, reservedWords, separators, identifiers, errors;
+type operators, intLiterals, floatLiterals, doubleLiterals, charLiterals, stringLiterals, reservedWords, separators, identifiers, errors;
 
 void setCategories(){
     //Operators
@@ -41,28 +42,28 @@ void setCategories(){
     floatLiterals.isUnderlined = 0;
 
     //DoubleLiterals
-    strcpy(doubleLiteral.color, "\\color{CadetBlue}");
-    strcpy(doubleLiteral.fontFamily, "qbk");
-    doubleLiteral.hasFamily = 1;
-    doubleLiteral.isBold = 1;
-    doubleLiteral.isItalic = 1;
-    doubleLiteral.isUnderlined = 1;
+    strcpy(doubleLiterals.color, "\\color{CadetBlue}");
+    strcpy(doubleLiterals.fontFamily, "qbk");
+    doubleLiterals.hasFamily = 1;
+    doubleLiterals.isBold = 1;
+    doubleLiterals.isItalic = 1;
+    doubleLiterals.isUnderlined = 1;
 
     //CharLiterals
-    strcpy(charLiteral.color, "\\color{Violet}");
-    strcpy(charLiteral.fontFamily, "lmdh");
-    charLiteral.hasFamily = 1;
-    charLiteral.isBold = 0;
-    charLiteral.isItalic = 0;
-    charLiteral.isUnderlined = 0;
+    strcpy(charLiterals.color, "\\color{Violet}");
+    strcpy(charLiterals.fontFamily, "lmdh");
+    charLiterals.hasFamily = 1;
+    charLiterals.isBold = 0;
+    charLiterals.isItalic = 0;
+    charLiterals.isUnderlined = 0;
 
     //StringLiteral
-    strcpy(stringLiteral.color, "\\color{ForestGreen}");
-    strcpy(stringLiteral.fontFamily, "lmdh");
-    stringLiteral.hasFamily = 1;
-    stringLiteral.isBold = 1;
-    stringLiteral.isItalic = 0;
-    stringLiteral.isUnderlined = 0;
+    strcpy(stringLiterals.color, "\\color{ForestGreen}");
+    strcpy(stringLiterals.fontFamily, "lmdh");
+    stringLiterals.hasFamily = 1;
+    stringLiterals.isBold = 1;
+    stringLiterals.isItalic = 0;
+    stringLiterals.isUnderlined = 0;
 
     //ReservedWords
     strcpy(reservedWords.color, "\\color{Olive}");
@@ -115,25 +116,72 @@ void closeSlide(){
     fclose(presentation);
 }
 
-/*void addToken(token t){
-    if(lineQuantity == 0) startSlide();
-    charQuantity++;
-    for(int i = 0; t.lexeme[i] != ""; i++) {
-        charQuantity++;
-    }
-    if(t.code == NEWLINE) {}
-    lineQuantity += ceil(charQuantity/46);
-    if(lineQuantity >= 16){
+void addToken(token t){
+    if(t.code == NEWLINE) {
+        lineQuantity += ceil(charQuantity/46);
+        if(lineQuantity >= 16){
+            closeSlide();
+            lineQuantity = 0;
+            charQuantity = 0;
+            openSlide();
+        }
+        FILE* presentation = fopen("beamerPresentation.tex", "a+");
+        fprintf(presentation, "%s\n", "\\\\");
+        fclose(presentation);
+    } else if (t.code == ENDOF){
         closeSlide();
-        lineQuantity = 0;
-        startSlide();
-    } 
+    } else {
+        charQuantity++;
+        for(int i = 0; t.lexeme[i] != ""; i++) {
+            charQuantity++;
+        }
+        if(46*lineQuantity+charQuantity>736) {
+            closeSlide();
+            openSlide();
+        } 
 
-    FILE* presentation = fopen("beamerPresentation.tex", "a+");
-    fprintf(presentation, "%s\n", "");
-    fclose(presentation);
-    lineQuantity++;
-}*/
+        FILE* presentation = fopen("beamerPresentation.tex", "a+");
+        if(t.code >= PLUSOP && t.code < INTLITERAL){
+            fprintf(presentation, "%s\n", operators.color);
+            fprintf(presentation, "\\emph{%s} \n", t.lexeme);
+        } else if(t.code == INTLITERAL){
+            fprintf(presentation, "%s\n", intLiterals.color);
+            fprintf(presentation, "{\\fontfamily{%s", intLiterals.fontFamily);
+            fprintf(presentation, "} \\selectfont %s} \n", t.lexeme);
+        } else if(t.code == FLOATLITERAL){
+            fprintf(presentation, "%s\n", floatLiterals.color);
+            fprintf(presentation, "{\\fontfamily{%s", floatLiterals.fontFamily);
+            fprintf(presentation, "} \\selectfont \\textbf{%s}} \n", t.lexeme);
+        } else if(t.code == DOUBLELITERAL){
+            fprintf(presentation, "%s\n", doubleLiterals.color);
+            fprintf(presentation, "{\\fontfamily{%s", doubleLiterals.fontFamily);
+            fprintf(presentation, "} \\selectfont \\textbf{\\underline{\\emph{%s}}}} \n", t.lexeme);
+        } else if(t.code == CHARLITERAL){
+            fprintf(presentation, "%s\n", charLiterals.color);
+            fprintf(presentation, "{\\fontfamily{%s", charLiterals.fontFamily);
+            fprintf(presentation, "} \\selectfont %s} \n", t.lexeme);
+        } else if(t.code == STRINGLITERAL){
+            fprintf(presentation, "%s\n", stringLiterals.color);
+            fprintf(presentation, "{\\fontfamily{%s", stringLiterals.fontFamily);
+            fprintf(presentation, "} \\selectfont \\textbf{%s}} \n", t.lexeme);
+        } else if(t.code >= AUTO && t.code < LPAREN){
+            fprintf(presentation, "%s\n", reservedWords.color);
+            fprintf(presentation, "\\textbf{\\underlined{%s}} \n", t.lexeme);
+        } else if(t.code >= LPAREN && t.code < ID){
+            fprintf(presentation, "%s\n", separators.color);
+            fprintf(presentation, "\\emph{%s} \n", t.lexeme);
+        } else if(t.code == ID){
+            fprintf(presentation, "%s\n", identifiers.color);
+            fprintf(presentation, "%s \n", t.lexeme);
+        } else if(t.code >= INVALIDSUFFIX && t.code < NEWLINE){
+            fprintf(presentation, "%s\n", errors.color);
+            fprintf(presentation, "{\\fontfamily{%s", errors.fontFamily);
+            fprintf(presentation, "} \\selectfont \\underline{%s}} \n", t.lexeme);
+        }
+        
+        fclose(presentation);
+    }
+}
 
 void createPresentation(){
     FILE* presentation = fopen("beamerPresentation.tex", "w");
