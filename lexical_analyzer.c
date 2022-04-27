@@ -25,8 +25,8 @@ int main()
     addToken(tok);
     endDocument();
 
-    remove("cTemp.c");
-    //command("pdflatex beamerPresentation.tex");
-    //command("evince -f beamerPresentation.pdf");
+    //remove("cTemp.c");
+    command("pdflatex beamerPresentation.tex");
+    command("evince -f beamerPresentation.pdf");
     return 0;
 }

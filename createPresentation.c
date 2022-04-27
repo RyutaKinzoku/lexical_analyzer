@@ -14,6 +14,8 @@ typedef struct Types{
 int lineQuantity = 0;
 int charQuantity = 0;
 
+int categoriesQuantity[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
 type operators, intLiterals, floatLiterals, doubleLiterals, charLiterals, stringLiterals, reservedWords, separators, identifiers, errors;
 
 void setCategories(){
@@ -26,7 +28,7 @@ void setCategories(){
     operators.isUnderlined = 0;
 
     //IntLiterals
-    strcpy(intLiterals.color, "\\color{Purple}");
+    strcpy(intLiterals.color, "\\color{purple}");
     strcpy(intLiterals.fontFamily, "qbk");
     intLiterals.hasFamily = 1;
     intLiterals.isBold = 0;
@@ -66,7 +68,7 @@ void setCategories(){
     stringLiterals.isUnderlined = 0;
 
     //ReservedWords
-    strcpy(reservedWords.color, "\\color{Olive}");
+    strcpy(reservedWords.color, "\\color{olive}");
     strcpy(reservedWords.fontFamily, "");
     reservedWords.hasFamily = 0;
     reservedWords.isBold = 1;
@@ -82,7 +84,7 @@ void setCategories(){
     separators.isUnderlined = 0;
     
     //Identifiers
-    strcpy(identifiers.color, "\\color{Blue}");
+    strcpy(identifiers.color, "\\color{blue}");
     strcpy(identifiers.fontFamily, "");
     identifiers.hasFamily = 0;
     identifiers.isBold = 0;
@@ -120,13 +122,10 @@ void fprintfLexeme(char* prefix, char* suffix, FILE* presentation, char* lexeme)
     fprintf(presentation, "%s", prefix);
     for(int i = 0; lexeme[i] != 0; i++) {
         if(lexeme[i] == '%') fprintf(presentation, "%s", "\\%");
-        else if (lexeme[i] == '{') {
-            fprintf(presentation, "%s", "\\{");
-            printf("Soy un bracket");
-        } 
+        else if (lexeme[i] == '{') fprintf(presentation, "%s", "\\{");
         else if (lexeme[i] == '}') fprintf(presentation, "%s", "\\}");
         else if (lexeme[i] == '\\') fprintf(presentation, "%s", "\\textbackslash ");
-        else if (lexeme[i] > 127) fprintf(presentation, "%s", "<E>");
+        else if (lexeme[i] > 127) {fprintf(presentation, "%s", "<E>"); charQuantity+=2;}
         else fprintf(presentation, "%c", lexeme[i]);
     }
     fprintf(presentation, "%s", suffix);
@@ -134,16 +133,16 @@ void fprintfLexeme(char* prefix, char* suffix, FILE* presentation, char* lexeme)
 
 void addToken(token t){
     if(t.code == NEWLINE) {
-        lineQuantity += ceil(charQuantity/46);
+        FILE* presentation = fopen("beamerPresentation.tex", "a+");
+        fprintf(presentation, "%s", "\\\\");
+        fclose(presentation);
+        lineQuantity += ceil(charQuantity/46)+1;
         if(lineQuantity >= 16){
             closeSlide();
-            lineQuantity = 0;
-            charQuantity = 0;
+            lineQuantity = lineQuantity-16;
             openSlide();
         }
-        FILE* presentation = fopen("beamerPresentation.tex", "a+");
-        fprintf(presentation, "%s\n", "\\\\");
-        fclose(presentation);
+        charQuantity = 0;
     } else if (t.code == ENDOF){
         closeSlide();
     } else {
@@ -151,8 +150,10 @@ void addToken(token t){
         for(int i = 0; t.lexeme[i] != 0; i++) {
             charQuantity++;
         }
+
         if(46*lineQuantity+charQuantity>736) {
             closeSlide();
+            lineQuantity = 0;
             openSlide();
         } 
 
@@ -160,39 +161,49 @@ void addToken(token t){
         if(t.code >= PLUSOP && t.code < INTLITERAL){
             fprintf(presentation, "%s\n", operators.color);
             fprintfLexeme("\\emph{", "} \n", presentation, t.lexeme);
+            categoriesQuantity[0]++;
         } else if(t.code == INTLITERAL){
             fprintf(presentation, "%s\n", intLiterals.color);
             fprintf(presentation, "{\\fontfamily{%s", intLiterals.fontFamily);
             fprintfLexeme("} \\selectfont ", "} \n", presentation, t.lexeme);
+            categoriesQuantity[1]++;
         } else if(t.code == FLOATLITERAL){
             fprintf(presentation, "%s\n", floatLiterals.color);
             fprintf(presentation, "{\\fontfamily{%s", floatLiterals.fontFamily);
             fprintfLexeme("} \\selectfont \\textbf{", "}} \n", presentation, t.lexeme);
+            categoriesQuantity[2]++;
         } else if(t.code == DOUBLELITERAL){
             fprintf(presentation, "%s\n", doubleLiterals.color);
             fprintf(presentation, "{\\fontfamily{%s", doubleLiterals.fontFamily);
             fprintfLexeme("} \\selectfont \\textbf{\\underline{\\emph{", "}}}} \n", presentation, t.lexeme);
+            categoriesQuantity[3]++;
         } else if(t.code == CHARLITERAL){
             fprintf(presentation, "%s\n", charLiterals.color);
             fprintf(presentation, "{\\fontfamily{%s", charLiterals.fontFamily);
-            fprintfLexeme("} \\selectfont ", "} \n", presentation, t.lexeme);
+            fprintfLexeme("} \\selectfont \\emph{", "}} \n", presentation, t.lexeme);
+            categoriesQuantity[4]++;
         } else if(t.code == STRINGLITERAL){
             fprintf(presentation, "%s\n", stringLiterals.color);
             fprintf(presentation, "{\\fontfamily{%s", stringLiterals.fontFamily);
             fprintfLexeme("} \\selectfont \\textbf{", "}} \n", presentation, t.lexeme);
+            categoriesQuantity[5]++;
         } else if(t.code >= AUTO && t.code < LPAREN){
             fprintf(presentation, "%s\n", reservedWords.color);
             fprintfLexeme("\\textbf{\\underline{", "}} \n", presentation, t.lexeme);
+            categoriesQuantity[6]++;
         } else if(t.code >= LPAREN && t.code < ID){
             fprintf(presentation, "%s\n", separators.color);
             fprintfLexeme("\\textbf{", "} \n", presentation, t.lexeme);
+            categoriesQuantity[7]++;
         } else if(t.code == ID){
             fprintf(presentation, "%s\n", identifiers.color);
             fprintfLexeme("", " \n", presentation, t.lexeme);
+            categoriesQuantity[8]++;
         } else if(t.code >= INVALIDSUFFIX && t.code < NEWLINE){
             fprintf(presentation, "%s\n", errors.color);
             fprintf(presentation, "{\\fontfamily{%s", errors.fontFamily);
             fprintfLexeme("} \\selectfont \\underline{", "}} \n", presentation, t.lexeme);
+            categoriesQuantity[9]++;
         }
         
         fclose(presentation);
@@ -264,13 +275,13 @@ void createPresentation(){
     fprintf(presentation, "%s\n", "{\\fontfamily{qbk} \\selectfont \\item \\textbf{Floatliterals}}");
     fprintf(presentation, "%s\n", "\\color{CadetBlue}");
     fprintf(presentation, "%s\n", "{\\fontfamily{qbk} \\selectfont \\item \\underline{\\emph{\\textbf{Doubleliteral}}}}");
-    fprintf(presentation, "%s\n", "\\color{violet}");
-    fprintf(presentation, "%s\n", "{\\fontfamily{lmdh} \\selectfont \\item Charliteral}");
+    fprintf(presentation, "%s\n", "\\color{Violet}");
+    fprintf(presentation, "%s\n", "{\\fontfamily{lmdh} \\selectfont \\item \\emph{Charliteral}}");
     fprintf(presentation, "%s\n", "\\color{ForestGreen}");
     fprintf(presentation, "%s\n", "{\\fontfamily{lmdh} \\selectfont \\item \\textbf{Stringliteral}}");
     fprintf(presentation, "%s\n", "\\color{olive}");
     fprintf(presentation, "%s\n", "\\item \\underline{\\textbf{Reserved Words}}");
-    fprintf(presentation, "%s\n", "\\color{cyan}");
+    fprintf(presentation, "%s\n", "\\color{Black}");
     fprintf(presentation, "%s\n", "\\item \\textbf{Separator characters}");
     fprintf(presentation, "%s\n", "\\color{blue}");
     fprintf(presentation, "%s\n", "\\item Identifiers");

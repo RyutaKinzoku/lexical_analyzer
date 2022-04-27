@@ -61,14 +61,14 @@ The scanner is a lex file, which are comprised of three sections:
 {\fontfamily{qbk} \selectfont \item \textbf{Floatliterals}}
 \color{CadetBlue}
 {\fontfamily{qbk} \selectfont \item \underline{\emph{\textbf{Doubleliteral}}}}
-\color{violet}
-{\fontfamily{lmdh} \selectfont \item Charliteral}
+\color{Violet}
+{\fontfamily{lmdh} \selectfont \item \emph{Charliteral}}
 \color{ForestGreen}
 {\fontfamily{lmdh} \selectfont \item \textbf{Stringliteral}}
 \color{olive}
 \item \underline{\textbf{Reserved Words}}
-\color{cyan}
-\item \emph{Separator characters}
+\color{Black}
+\item \textbf{Separator characters}
 \color{blue}
 \item Identifiers
 \color{Pink}
@@ -76,152 +76,235 @@ The scanner is a lex file, which are comprised of three sections:
 \end{itemize}
 \end{frame}
 \begin{frame}{Font Lines}
-\color{Olive}
+\color{olive}
 \textbf{\underline{int}} 
-\color{Blue}
+\color{blue}
 test 
-\color{Cyan}
-\emph{(} 
-\color{Cyan}
-\emph{)} 
-\color{Cyan}
-\emph{\{} 
-\\
-\color{Blue}
+\color{Black}
+\textbf{(} 
+\color{Black}
+\textbf{)} 
+\color{Black}
+\textbf{\{} 
+\\\color{blue}
 printf 
-\color{Cyan}
-\emph{(} 
-\color{Violet}
-{\fontfamily{lmdh} \selectfont "} 
-\color{OrangeRed}
-\emph{\%} 
-\color{Blue}
-d 
-\color{Violet}
-{\fontfamily{lmdh} \selectfont "} 
-\color{Cyan}
-\emph{,} 
-\color{Purple}
+\color{Black}
+\textbf{(} 
+\color{ForestGreen}
+{\fontfamily{lmdh} \selectfont \textbf{"\%d"}} 
+\color{Black}
+\textbf{,} 
+\color{purple}
 {\fontfamily{qbk} \selectfont 1} 
-\color{Cyan}
-\emph{)} 
-\color{Cyan}
-\emph{;} 
-\\
-\color{Cyan}
-\emph{\}} 
-\\
-\color{Olive}
+\color{Black}
+\textbf{)} 
+\color{Black}
+\textbf{;} 
+\\\color{Black}
+\textbf{\}} 
+\\\color{olive}
 \textbf{\underline{int}} 
-\color{Blue}
+\color{blue}
 cinco 
 \color{OrangeRed}
 \emph{=} 
-\color{Purple}
+\color{purple}
 {\fontfamily{qbk} \selectfont 5} 
-\color{Cyan}
-\emph{;} 
-\\
-\color{Olive}
+\color{Black}
+\textbf{;} 
+\\\color{olive}
 \textbf{\underline{int}} 
-\color{Blue}
+\color{blue}
 main 
-\color{Cyan}
-\emph{(} 
-\color{Cyan}
-\emph{)} 
-\color{Cyan}
-\emph{\{} 
-\\
-\color{Olive}
+\color{Black}
+\textbf{(} 
+\color{Black}
+\textbf{)} 
+\color{Black}
+\textbf{\{} 
+\\\color{olive}
 \textbf{\underline{int}} 
-\color{Blue}
+\color{blue}
 t 
 \color{OrangeRed}
 \emph{=} 
-\color{Purple}
+\color{purple}
 {\fontfamily{qbk} \selectfont 100301} 
-\color{Cyan}
-\emph{;} 
-\\
-\color{Olive}
+\color{Black}
+\textbf{;} 
+\\\color{olive}
 \textbf{\underline{int}} 
-\color{Blue}
+\color{blue}
 r 
 \color{OrangeRed}
 \emph{=} 
-\color{Blue}
+\color{blue}
 hola 
-\color{Cyan}
-\emph{(} 
-\color{Cyan}
-\emph{)} 
-\color{Cyan}
-\emph{;} 
-\\
-\color{Olive}
+\color{Black}
+\textbf{(} 
+\color{Black}
+\textbf{)} 
+\color{Black}
+\textbf{;} 
+\\\color{olive}
 \textbf{\underline{char}} 
-\color{Blue}
+\color{blue}
 f 
-\color{Cyan}
-\emph{[} 
-\color{Purple}
+\color{Black}
+\textbf{[} 
+\color{purple}
 {\fontfamily{qbk} \selectfont 10} 
-\color{Cyan}
-\emph{]} 
+\color{Black}
+\textbf{]} 
 \color{OrangeRed}
 \emph{=} 
-\color{Violet}
-{\fontfamily{lmdh} \selectfont "} 
-\color{Blue}
-a 
-\color{Violet}
-{\fontfamily{lmdh} \selectfont \textbackslash } 
-\color{Blue}
-n 
-\color{Violet}
-{\fontfamily{lmdh} \selectfont "} 
-\color{Cyan}
-\emph{;} 
-\\
-\color{Olive}
+\color{OrangeRed}
+\emph{"} 
+\color{Black}
+\textbf{;} 
+\\\color{olive}
 \textbf{\underline{int}} 
-\color{Blue}
+\color{blue}
 v 
 \color{OrangeRed}
 \emph{=} 
-\color{Purple}
+\color{purple}
 {\fontfamily{qbk} \selectfont 1} 
-\color{Cyan}
-\emph{;} 
-\\
-\color{Blue}
-printf 
-\color{Cyan}
-\emph{(} 
-\color{Violet}
-{\fontfamily{lmdh} \selectfont "} 
+\color{Black}
+\textbf{;} 
+\\\color{olive}
+\textbf{\underline{double}} 
+\color{blue}
+r 
 \color{OrangeRed}
-\emph{\%} 
-\color{Blue}
-s 
+\emph{=} 
+\color{CadetBlue}
+{\fontfamily{qbk} \selectfont \textbf{\underline{\emph{2.435e2}}}} 
+\color{Black}
+\textbf{;} 
+\\\color{olive}
+\textbf{\underline{char}} 
+\color{blue}
+r 
+\color{OrangeRed}
+\emph{=} 
 \color{Violet}
-{\fontfamily{lmdh} \selectfont "} 
-\color{Cyan}
-\emph{,} 
-\color{Blue}
+{\fontfamily{lmdh} \selectfont \emph{'y'}} 
+\color{Black}
+\textbf{;} 
+\\\color{blue}
+printf 
+\color{Black}
+\textbf{(} 
+\color{ForestGreen}
+{\fontfamily{lmdh} \selectfont \textbf{"\%s"}} 
+\color{Black}
+\textbf{,} 
+\color{blue}
 f 
-\color{Cyan}
-\emph{)} 
-\color{Cyan}
-\emph{;} 
-\\
-\end{frame}
+\color{Black}
+\textbf{)} 
+\color{Black}
+\textbf{;} 
+\\\color{Black}
+\textbf{\}} 
+\\\color{olive}
+\textbf{\underline{int}} 
+\color{blue}
+main 
+\color{Black}
+\textbf{(} 
+\color{Black}
+\textbf{)} 
+\color{Black}
+\textbf{\{} 
+\\\color{olive}
+\textbf{\underline{int}} 
+\color{blue}
+t 
+\color{OrangeRed}
+\emph{=} 
+\color{purple}
+{\fontfamily{qbk} \selectfont 100301} 
+\color{Black}
+\textbf{;} 
+\\\color{olive}
+\textbf{\underline{int}} 
+\color{blue}
+r 
+\color{OrangeRed}
+\emph{=} 
+\color{blue}
+hola 
+\color{Black}
+\textbf{(} 
+\color{Black}
+\textbf{)} 
+\color{Black}
+\textbf{;} 
+\\\end{frame}
 \begin{frame}{Font Lines}
-\color{Cyan}
-\emph{\}} 
-\end{frame}
-\begin{frame}{Font Lines}
-\\
-\end{frame}
+\color{olive}
+\textbf{\underline{char}} 
+\color{blue}
+f 
+\color{Black}
+\textbf{[} 
+\color{purple}
+{\fontfamily{qbk} \selectfont 10} 
+\color{Black}
+\textbf{]} 
+\color{OrangeRed}
+\emph{=} 
+\color{OrangeRed}
+\emph{"} 
+\color{Black}
+\textbf{;} 
+\\\color{olive}
+\textbf{\underline{int}} 
+\color{blue}
+v 
+\color{OrangeRed}
+\emph{=} 
+\color{purple}
+{\fontfamily{qbk} \selectfont 1} 
+\color{Black}
+\textbf{;} 
+\\\color{olive}
+\textbf{\underline{double}} 
+\color{blue}
+r 
+\color{OrangeRed}
+\emph{=} 
+\color{CadetBlue}
+{\fontfamily{qbk} \selectfont \textbf{\underline{\emph{2.435e2}}}} 
+\color{Black}
+\textbf{;} 
+\\\color{olive}
+\textbf{\underline{char}} 
+\color{blue}
+r 
+\color{OrangeRed}
+\emph{=} 
+\color{Violet}
+{\fontfamily{lmdh} \selectfont \emph{'y'}} 
+\color{Black}
+\textbf{;} 
+\\\color{blue}
+printf 
+\color{Black}
+\textbf{(} 
+\color{ForestGreen}
+{\fontfamily{lmdh} \selectfont \textbf{"\%s"}} 
+\color{Black}
+\textbf{,} 
+\color{blue}
+f 
+\color{Black}
+\textbf{)} 
+\color{Black}
+\textbf{;} 
+\\\color{Black}
+\textbf{\}} 
+\\\end{frame}
 \end{document}
