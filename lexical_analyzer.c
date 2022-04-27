@@ -23,6 +23,7 @@ int main()
         addToken(t);
     }
     addToken(tok);
+    createHistogram();
     endDocument();
 
     //remove("cTemp.c");

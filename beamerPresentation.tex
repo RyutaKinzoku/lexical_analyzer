@@ -21,6 +21,8 @@
 \usecolortheme[named=darkcyan]{structure}
 \usepackage{tikz}
 
+\usepackage{pgfplots}
+\pgfplotsset{width=3cm, height=3cm}
 \title[Lexical Analysis]{Lexical Analysis}
 \subtitle{C Language}
 \author[Project 1]{Reyner Marxell Arias Muñoz, Kenneth Ibarra Vargas, David Benavides Naranjo}
@@ -307,4 +309,21 @@ f
 \\\color{Black}
 \textbf{\}} 
 \\\end{frame}
+\begin{frame}{Histogram}
+\begin{tikzpicture}
+\begin{axis}[ybar interval, ymax=60,ymin=0, minor y tick num = 3, legend style={at={(0.5,-0.1)}, anchor=north, legend columns=10}, anchor=north, ybar interval=9,]
+\addplot coordinates { (0, 15) (5, 0) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, 0) (45, 0) };
+\addplot coordinates { (0, 0) (5, 8) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, 0) (45, 0) };
+\addplot coordinates { (0, 0) (5, 0) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, 0) (45, 0) };
+\addplot coordinates { (0, 0) (5, 0) (10, 0) (15, 2) (20, 0) (25, 0) (30, 0) (35, 0) (40, 0) (45, 0) };
+\addplot coordinates { (0, 0) (5, 0) (10, 0) (15, 0) (20, 2) (25, 0) (30, 0) (35, 0) (40, 0) (45, 0) };
+\addplot coordinates { (0, 0) (5, 0) (10, 0) (15, 0) (20, 0) (25, 3) (30, 0) (35, 0) (40, 0) (45, 0) };
+\addplot coordinates { (0, 0) (5, 0) (10, 0) (15, 0) (20, 0) (25, 0) (30, 16) (35, 0) (40, 0) (45, 0) };
+\addplot coordinates { (0, 0) (5, 0) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, 45) (40, 0) (45, 0) };
+\addplot coordinates { (0, 0) (5, 0) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, 23) (45, 0) };
+\addplot coordinates { (0, 0) (5, 0) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, 0) (45, 0) };
+\legend{Operators, IntLiterals, FloatLiterals, DoubleLiterals, CharLiterals, StringLiterals, ReservedWords, Separators, Id, Errors}
+\end{axis}
+\end{tikzpicture}
+\end{frame}
 \end{document}

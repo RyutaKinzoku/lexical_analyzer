@@ -235,6 +235,10 @@ void createPresentation(){
     fprintf(presentation, "%s\n", "\\usecolortheme[named=darkcyan]{structure}");
     fprintf(presentation, "%s\n\n", "\\usepackage{tikz}");
     
+
+    fprintf(presentation, "%s\n", "\\usepackage{pgfplots}");
+    fprintf(presentation, "%s\n", "\\pgfplotsset{width=3cm, height=3cm}");
+
     fprintf(presentation, "%s\n", "\\title[Lexical Analysis]{Lexical Analysis}");
     fprintf(presentation, "%s\n", "\\subtitle{C Language}");
     fprintf(presentation, "%s\n", "\\author[Project 1]{Reyner Marxell Arias Muñoz, Kenneth Ibarra Vargas, David Benavides Naranjo}");
@@ -294,21 +298,22 @@ void createPresentation(){
 
 void createHistogram(){
     FILE* presentation = fopen("beamerPresentation.tex", "a+");
-    fprintf(presentation, "%s\n", "\\begin{frame}[Histogram]");
+    fprintf(presentation, "%s\n", "\\begin{frame}{Histogram}");
     fprintf(presentation, "%s\n", "\\begin{tikzpicture}");
-    fprintf(presentation, "%s\n", "\\begin{axis}[ybar interval, ymax=60,ymin=0, minor y tick num = 3, legend style={at={(0.5,-0.1)}, anchor=north, legend columns=2}, anchor=north, ybar interval=9,]");
-    fprintf(presentation, "\\addplot coordinates { (0, %d) (5, 5) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, 0) (45, 0) };",categoriesQuantity[0] );
-    fprintf(presentation, "\\addplot coordinates { (0, 1) (5, %d) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, 0) (45, 0) };",categoriesQuantity[1] );
-    fprintf(presentation, "\\addplot coordinates { (0, 1) (5, 5) (10, %d) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, 0) (45, 0) };",categoriesQuantity[2] );
-    fprintf(presentation, "\\addplot coordinates { (0, 1) (5, 5) (10, 0) (15, %d) (20, 0) (25, 0) (30, 0) (35, 0) (40, 0) (45, 0) };",categoriesQuantity[3] );
-    fprintf(presentation, "\\addplot coordinates { (0, 1) (5, 5) (10, 0) (15, 0) (20, %d) (25, 0) (30, 0) (35, 0) (40, 0) (45, 0) };",categoriesQuantity[4] );
-    fprintf(presentation, "\\addplot coordinates { (0, 1) (5, 5) (10, 0) (15, 0) (20, 0) (25, %d) (30, 0) (35, 0) (40, 0) (45, 0) };",categoriesQuantity[5] );
-    fprintf(presentation, "\\addplot coordinates { (0, 1) (5, 5) (10, 0) (15, 0) (20, 0) (25, 0) (30, %d) (35, 0) (40, 0) (45, 0) };",categoriesQuantity[6] );
-    fprintf(presentation, "\\addplot coordinates { (0, 1) (5, 5) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, %d) (40, 0) (45, 0) };",categoriesQuantity[7] );
-    fprintf(presentation, "\\addplot coordinates { (0, 1) (5, 5) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, %d) (45, 0) };",categoriesQuantity[8] );
-    fprintf(presentation, "\\addplot coordinates { (0, 1) (5, 5) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, 0) (45, %d) };",categoriesQuantity[9] );
+    fprintf(presentation, "%s\n", "\\begin{axis}[ybar interval, ymax=60,ymin=0, minor y tick num = 3, legend style={at={(0.5,-0.1)}, anchor=north, legend columns=10}, anchor=north, ybar interval=9,]");
+    fprintf(presentation, "\\addplot coordinates { (0, %d) (5, 0) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, 0) (45, 0) };\n",categoriesQuantity[0] );
+    fprintf(presentation, "\\addplot coordinates { (0, 0) (5, %d) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, 0) (45, 0) };\n",categoriesQuantity[1] );
+    fprintf(presentation, "\\addplot coordinates { (0, 0) (5, 0) (10, %d) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, 0) (45, 0) };\n",categoriesQuantity[2] );
+    fprintf(presentation, "\\addplot coordinates { (0, 0) (5, 0) (10, 0) (15, %d) (20, 0) (25, 0) (30, 0) (35, 0) (40, 0) (45, 0) };\n",categoriesQuantity[3] );
+    fprintf(presentation, "\\addplot coordinates { (0, 0) (5, 0) (10, 0) (15, 0) (20, %d) (25, 0) (30, 0) (35, 0) (40, 0) (45, 0) };\n",categoriesQuantity[4] );
+    fprintf(presentation, "\\addplot coordinates { (0, 0) (5, 0) (10, 0) (15, 0) (20, 0) (25, %d) (30, 0) (35, 0) (40, 0) (45, 0) };\n",categoriesQuantity[5] );
+    fprintf(presentation, "\\addplot coordinates { (0, 0) (5, 0) (10, 0) (15, 0) (20, 0) (25, 0) (30, %d) (35, 0) (40, 0) (45, 0) };\n",categoriesQuantity[6] );
+    fprintf(presentation, "\\addplot coordinates { (0, 0) (5, 0) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, %d) (40, 0) (45, 0) };\n",categoriesQuantity[7] );
+    fprintf(presentation, "\\addplot coordinates { (0, 0) (5, 0) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, %d) (45, 0) };\n",categoriesQuantity[8] );
+    fprintf(presentation, "\\addplot coordinates { (0, 0) (5, 0) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, 0) (45, %d) };\n",categoriesQuantity[9] );
     fprintf(presentation, "%s\n", "\\legend{Operators, IntLiterals, FloatLiterals, DoubleLiterals, CharLiterals, StringLiterals, ReservedWords, Separators, Id, Errors}");
     fprintf(presentation, "%s\n", "\\end{axis}");
     fprintf(presentation, "%s\n", "\\end{tikzpicture}");
     fprintf(presentation, "%s\n", "\\end{frame}");
+    fclose(presentation);
 }
