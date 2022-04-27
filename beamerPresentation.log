@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2022.4.20)  26 APR 2022 16:05
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2022.4.20)  26 APR 2022 18:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1051,38 +1051,45 @@ Overfull \vbox (4.26256pt too high) detected at line 43
 
 ]
 LaTeX Font Info:    Trying to load font information for OT1+qbk on input line 7
-5.
+7.
  (/usr/share/texmf/tex/latex/tex-gyre/ot1qbk.fd
 File: ot1qbk.fd 2009/09/25 v1.2 font definition file for OT1/qbk
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 75.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 77.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 75.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 77.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Trying to load font information for OT1+mathkerncmss on inp
-ut line 75.
+ut line 77.
 
 (/usr/share/texlive/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
 File: ot1mathkerncmss.fd 2020/01/31 Fontinst v1.933 font definitions for OT1/ma
 thkerncmss.
 )
 LaTeX Font Info:    Trying to load font information for OT1+lmdh on input line 
-75.
+77.
 
 (/usr/share/texmf/tex/latex/lm/ot1lmdh.fd
 File: ot1lmdh.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 
 LaTeX Font Warning: Font shape `OT1/lmdh/b/n' undefined
-(Font)              using `OT1/lmdh/m/n' instead on input line 75.
+(Font)              using `OT1/lmdh/m/n' instead on input line 77.
+
+LaTeX Font Info:    Trying to load font information for OT1+ptf on input line 7
+7.
+LaTeX Font Info:    No file OT1ptf.fd. on input line 77.
+
+LaTeX Font Warning: Font shape `OT1/ptf/m/n' undefined
+(Font)              using `OT1/cmr/m/n' instead on input line 77.
 
 [4
 
@@ -1096,11 +1103,11 @@ LaTeX Font Warning: Font shape `OT1/lmdh/b/n' undefined
 \tf@snm=\write9
 \openout9 = `beamerPresentation.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 76.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 76.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 78.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 78.
  (./beamerPresentation.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 76.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 76.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 78.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 78.
 Package rerunfilecheck Info: File `beamerPresentation.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -1109,26 +1116,27 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 23282 strings out of 481239
- 457447 string characters out of 5920377
- 718509 words of memory out of 5000000
- 37983 multiletter control sequences out of 15000+600000
+ 23291 strings out of 481239
+ 457544 string characters out of 5920377
+ 719494 words of memory out of 5000000
+ 37990 multiletter control sequences out of 15000+600000
  555213 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  58i,15n,67p,812b,558s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dv
 ips/tex-gyre/q-rm.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmss10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mss12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.p
-fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/
-share/texmf/fonts/type1/public/lm/lmdunh10.pfb></usr/share/texmf/fonts/type1/pu
-blic/tex-gyre/qbkb.pfb></usr/share/texmf/fonts/type1/public/tex-gyre/qbkbi.pfb>
-</usr/share/texmf/fonts/type1/public/tex-gyre/qbkr.pfb>
-Output written on beamerPresentation.pdf (4 pages, 191806 bytes).
+s/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+ss10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/share/t
+exmf/fonts/type1/public/lm/lmdunh10.pfb></usr/share/texmf/fonts/type1/public/te
+x-gyre/qbkb.pfb></usr/share/texmf/fonts/type1/public/tex-gyre/qbkbi.pfb></usr/s
+hare/texmf/fonts/type1/public/tex-gyre/qbkr.pfb>
+Output written on beamerPresentation.pdf (4 pages, 201590 bytes).
 PDF statistics:
- 175 PDF objects out of 1000 (max. 8388607)
- 145 compressed objects within 2 object streams
+ 179 PDF objects out of 1000 (max. 8388607)
+ 148 compressed objects within 2 object streams
  9 named destinations out of 1000 (max. 500000)
  72 words of extra memory for PDF output out of 10000 (max. 10000000)
 

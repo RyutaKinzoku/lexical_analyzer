@@ -11,6 +11,7 @@ typedef struct Types{
 } type;
 
 int lineQuantity = 0;
+int charQuantity = 0;
 
 type operators, intLiterals, floatLiterals, doubleLiteral, charLiteral, stringLiteral, reservedWords, separators, identifiers, errors;
 
@@ -88,12 +89,18 @@ void setCategories(){
     identifiers.isUnderlined = 0;
 
     //Errors
-    strcpy(errors.color, "\\color{Blue}");
-    strcpy(errors.fontFamily, "");
-    errors.hasFamily = 0;
+    strcpy(errors.color, "\\color{Pink}");
+    strcpy(errors.fontFamily, "ptf");
+    errors.hasFamily = 1;
     errors.isBold = 0;
     errors.isItalic = 0;
-    errors.isUnderlined = 0;
+    errors.isUnderlined = 1;
+}
+
+void endDocument(){
+    FILE* presentation = fopen("beamerPresentation.tex", "a+");
+    fprintf(presentation, "%s\n", "\\end{document}");
+    fclose(presentation);
 }
 
 void openSlide(){
@@ -108,16 +115,25 @@ void closeSlide(){
     fclose(presentation);
 }
 
-void addToken(token t){
-    if(lineQuantity == 8) {
+/*void addToken(token t){
+    if(lineQuantity == 0) startSlide();
+    charQuantity++;
+    for(int i = 0; t.lexeme[i] != ""; i++) {
+        charQuantity++;
+    }
+    if(t.code == NEWLINE) {}
+    lineQuantity += ceil(charQuantity/46);
+    if(lineQuantity >= 16){
         closeSlide();
         lineQuantity = 0;
-    }
-    if(lineQuantity == 0) startSlide();
+        startSlide();
+    } 
+
     FILE* presentation = fopen("beamerPresentation.tex", "a+");
-    fprintf(presentation, "%s\n", "\\end{frame}");
+    fprintf(presentation, "%s\n", "");
     fclose(presentation);
-}
+    lineQuantity++;
+}*/
 
 void createPresentation(){
     FILE* presentation = fopen("beamerPresentation.tex", "w");

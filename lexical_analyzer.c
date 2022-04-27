@@ -17,6 +17,7 @@ int main()
     remove("cTemp.c");
     createPresentation();
     setCategories();
+    endDocument();
     command("cd beamer");
     command("pdflatex beamerPresentation.tex");
     command("evince -f beamerPresentation.pdf");
