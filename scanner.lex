@@ -17,7 +17,8 @@ ID (([a-z]|[A-Z])|_)((([a-z]|[A-Z])|_)|[0-9])*
 INTLITERAL [0-9][0-9]*
 FLOATLITERAL ({INTLITERAL}+"."{INTLITERAL}*)
 DOUBLELITERAL ({FLOATLITERAL}+"e"{INTLITERAL})
-CHARLITERAL [^( |\n)]
+CHARLITERAL \'(\\.|[^"\\])\'
+STRINGLITERAL ["]([^"\\\n]|\\(.|\n))*["]
 INVALIDSUFFIX [0-9]([a-z]|[A-Z]|_|[0-9])*
 
 /*Rules*/
@@ -268,6 +269,8 @@ while {
 }
 
 {NEWLINE} fprintf(tokensTemp, "%s", yytext);
+
+{STRINGLITERAL} fprintf(tokensTemp, "%s 41\n", yytext);
 
 {LPAREN} fprintf(tokensTemp, "%s 74\n", yytext);
 
