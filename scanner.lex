@@ -17,8 +17,10 @@ ID (([a-z]|[A-Z])|_)((([a-z]|[A-Z])|_)|[0-9])*
 INTLITERAL [0-9][0-9]*
 FLOATLITERAL ({INTLITERAL}+"."{INTLITERAL}*)
 DOUBLELITERAL ({FLOATLITERAL}+"e"{INTLITERAL})
+HEXLITERAL 0x({INTLITERAL}|([A-F]|[a-f]))
+HEXLITERALFLOAT HEXLITERAL+"."({INTLITERAL}|([A-F]|[a-f]))"p""-"?{INTLITERAL}
 CHARLITERAL \'(\\.|[^"\\])\'
-STRINGLITERAL ["]([^"\\\n]|\\(.|\n))*["]
+STRINGLITERAL \"(\\.|[^"\\])*\"
 INVALIDSUFFIX [0-9]([a-z]|[A-Z]|_|[0-9])*
 
 /*Rules*/
@@ -119,6 +121,8 @@ volatile {
 while {
     fprintf(tokensTemp, "%s 73\n", yytext);
 }
+
+{STRINGLITERAL} fprintf(tokensTemp, "%s 41\n", yytext);
 
 "+" {
     fprintf(tokensTemp, "%s 0\n", yytext);
@@ -270,8 +274,6 @@ while {
 
 {NEWLINE} fprintf(tokensTemp, "%s", yytext);
 
-{STRINGLITERAL} fprintf(tokensTemp, "%s 41\n", yytext);
-
 {LPAREN} fprintf(tokensTemp, "%s 74\n", yytext);
 
 {RPAREN} fprintf(tokensTemp, "%s 75\n", yytext);
@@ -290,7 +292,9 @@ while {
 
 {ID} fprintf(tokensTemp, "%s 82\n", yytext);
 
-{INTLITERAL} fprintf(tokensTemp, "%s 37\n", yytext);
+{HEXLITERALFLOAT} fprintf(tokensTemp, "%s 39\n", yytext);
+
+{HEXLITERAL}|{INTLITERAL} fprintf(tokensTemp, "%s 37\n", yytext);
 
 {FLOATLITERAL} fprintf(tokensTemp, "%s 38\n", yytext);
 
@@ -300,8 +304,7 @@ while {
 
 {INVALIDSUFFIX} fprintf(tokensTemp, "%s 83\n", yytext);
 
-[ \t]+ /* eat up whitespace */
-
+. fprintf(tokensTemp, "%s 84\n", yytext);
 %%
 
 /*User code*/
