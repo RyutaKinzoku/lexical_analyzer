@@ -116,7 +116,7 @@ void endDocument(){
 
 void openSlide(){
     FILE* presentation = fopen("beamerPresentation.tex", "a+");
-    fprintf(presentation, "%s\n", "\\begin{frame}{Font Lines}");
+    fprintf(presentation, "%s\n", "\\begin{frame}{Source Lines}");
     fclose(presentation);
 }
 
