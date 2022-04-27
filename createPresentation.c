@@ -74,11 +74,11 @@ void setCategories(){
     reservedWords.isUnderlined = 1;
 
     //separators
-    strcpy(separators.color, "\\color{Cyan}");
+    strcpy(separators.color, "\\color{Black}");
     strcpy(separators.fontFamily, "");
     separators.hasFamily = 0;
-    separators.isBold = 0;
-    separators.isItalic = 1;
+    separators.isBold = 1;
+    separators.isItalic = 0;
     separators.isUnderlined = 0;
     
     //Identifiers
@@ -185,7 +185,7 @@ void addToken(token t){
             fprintfLexeme("\\textbf{\\underline{", "}} \n", presentation, t.lexeme);
         } else if(t.code >= LPAREN && t.code < ID){
             fprintf(presentation, "%s\n", separators.color);
-            fprintfLexeme("\\emph{", "} \n", presentation, t.lexeme);
+            fprintfLexeme("\\textbf{", "} \n", presentation, t.lexeme);
         } else if(t.code == ID){
             fprintf(presentation, "%s\n", identifiers.color);
             fprintfLexeme("", " \n", presentation, t.lexeme);
@@ -271,7 +271,7 @@ void createPresentation(){
     fprintf(presentation, "%s\n", "\\color{olive}");
     fprintf(presentation, "%s\n", "\\item \\underline{\\textbf{Reserved Words}}");
     fprintf(presentation, "%s\n", "\\color{cyan}");
-    fprintf(presentation, "%s\n", "\\item \\emph{Separator characters}");
+    fprintf(presentation, "%s\n", "\\item \\textbf{Separator characters}");
     fprintf(presentation, "%s\n", "\\color{blue}");
     fprintf(presentation, "%s\n", "\\item Identifiers");
     fprintf(presentation, "%s\n", "\\color{Pink}");
