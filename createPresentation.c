@@ -18,6 +18,14 @@ int categoriesQuantity[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 type operators, intLiterals, floatLiterals, doubleLiterals, charLiterals, stringLiterals, reservedWords, separators, identifiers, errors;
 
+int max(){
+    int max = 0;
+    for(int i = 0; i < 10; i++){
+        if(categoriesQuantity[i]>max) max = categoriesQuantity[i];
+    }
+    return max;
+}
+
 void setCategories(){
     //Operators
     strcpy(operators.color, "\\color{OrangeRed}");
@@ -237,7 +245,7 @@ void createPresentation(){
     
 
     fprintf(presentation, "%s\n", "\\usepackage{pgfplots}");
-    fprintf(presentation, "%s\n", "\\pgfplotsset{width=3cm, height=3cm}");
+    fprintf(presentation, "%s\n", "\\pgfplotsset{width=12cm, height=8cm}");
 
     fprintf(presentation, "%s\n", "\\title[Lexical Analysis]{Lexical Analysis}");
     fprintf(presentation, "%s\n", "\\subtitle{C Language}");
@@ -300,7 +308,7 @@ void createHistogram(){
     FILE* presentation = fopen("beamerPresentation.tex", "a+");
     fprintf(presentation, "%s\n", "\\begin{frame}{Histogram}");
     fprintf(presentation, "%s\n", "\\begin{tikzpicture}");
-    fprintf(presentation, "%s\n", "\\begin{axis}[ybar interval, ymax=60,ymin=0, minor y tick num = 3, legend style={at={(0.5,-0.1)}, anchor=north, legend columns=10}, anchor=north, ybar interval=9,]");
+    fprintf(presentation, "\\begin{axis}[ybar interval, ymax=%d,ymin=0, minor y tick num = 3, legend style={at={(0.5,-0.1)}, anchor=north, legend columns=10}, anchor=north, ybar interval=9,]\n", max());
     fprintf(presentation, "\\addplot coordinates { (0, %d) (5, 0) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, 0) (45, 0) };\n",categoriesQuantity[0] );
     fprintf(presentation, "\\addplot coordinates { (0, 0) (5, %d) (10, 0) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, 0) (45, 0) };\n",categoriesQuantity[1] );
     fprintf(presentation, "\\addplot coordinates { (0, 0) (5, 0) (10, %d) (15, 0) (20, 0) (25, 0) (30, 0) (35, 0) (40, 0) (45, 0) };\n",categoriesQuantity[2] );
