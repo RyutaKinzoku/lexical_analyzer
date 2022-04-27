@@ -291,3 +291,23 @@ void createPresentation(){
     fprintf(presentation, "%s\n", "\\end{frame}");
     fclose(presentation);
 }
+
+void createHistogram(){
+    FILE* presentation = fopen("beamerPresentation.tex", "a+");
+    fprintf(presentation, "%s\n", "\\begin{frame}[Histogram]");
+    fprintf(presentation, "%s\n", "\\begin{tikzpicture}");
+    fprintf(presentation, "%s\n", "\\begin{axis}[ybar interval, ymax=60,ymin=0, minor y tick num = 3, x tick label style={/pgf/number format/1000 sep=},ylabel=Year,enlargelimits=0.05,legend style={at={(0.5,-0.1)},	anchor=north,legend columns=-1}, ybar interval=0.7,]");
+    fprintf(presentation, "\\addplot coordinates { (0, %s),",categoriesQuantity[0] );
+    fprintf(presentation, "(5, %s)",categoriesQuantity[1] );
+    fprintf(presentation, "(10, %s)",categoriesQuantity[2] );
+    fprintf(presentation, "(15, %s)",categoriesQuantity[3] );
+    fprintf(presentation, "(20, %s)",categoriesQuantity[4] );
+    fprintf(presentation, "(25, %s)",categoriesQuantity[5] );
+    fprintf(presentation, "(30, %s)",categoriesQuantity[6] );
+    fprintf(presentation, "(35, %s)",categoriesQuantity[7] );
+    fprintf(presentation, "(40, %s)",categoriesQuantity[8] );
+    fprintf(presentation, "(45, %s)};\n,",categoriesQuantity[9] );
+    fprintf(presentation, "%s\n", "\\end{axis}");
+    fprintf(presentation, "%s\n", "\\end{tikzpicture}");
+    fprintf(presentation, "%s\n", "\\end{frame}");
+}
