@@ -304,6 +304,8 @@ while {
 
 {INVALIDSUFFIX} fprintf(tokensTemp, "%s 83\n", yytext);
 
+[ \t]+ /* eat up whitespace */
+
 . fprintf(tokensTemp, "%s 84\n", yytext);
 %%
 
